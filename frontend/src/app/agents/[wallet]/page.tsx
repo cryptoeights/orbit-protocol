@@ -135,7 +135,7 @@ export default function AgentProfile() {
       </div>
 
       {/* ── Stat Cards ── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
         <div className="card p-5 text-center">
           <div className="text-2xl font-bold">{repDisplay}</div>
           <div className="text-sm text-gray-500 mt-1">Reputation</div>
@@ -233,10 +233,10 @@ export default function AgentProfile() {
       <h2 className="text-xl font-semibold mb-4">On-Chain Identity</h2>
       <div className="card p-5 mb-6">
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <span className="text-sm text-gray-500">Wallet</span>
-            <div className="flex items-center gap-2">
-              <code className="text-sm bg-white/5 px-3 py-1 rounded font-mono">
+            <div className="flex items-center gap-2 max-w-full">
+              <code className="text-xs sm:text-sm bg-white/5 px-3 py-1 rounded font-mono truncate max-w-[200px] sm:max-w-none">
                 {wallet}
               </code>
               <button

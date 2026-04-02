@@ -48,58 +48,58 @@ export default function Home() {
   return (
     <div className="pb-16">
       {/* ── Hero ── */}
-      <section className="pt-32 pb-20 text-center px-4">
+      <section className="pt-24 md:pt-32 pb-12 md:pb-20 text-center px-4">
         {/* Announcement badge */}
-        <div className="inline-block mb-8">
-          <span className="text-sm text-gray-400 border border-white/10 rounded-full px-4 py-1.5">
+        <div className="inline-block mb-6 md:mb-8">
+          <span className="text-xs md:text-sm text-gray-400 border border-white/10 rounded-full px-3 md:px-4 py-1.5">
             On-chain agent identity on Stellar
           </span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+        <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-4 md:mb-6">
           The <RotatingText /><br />
           Layer<br />
           <span className="text-gray-500">for AI Agents</span>
         </h1>
 
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-sm md:text-lg text-gray-500 max-w-2xl mx-auto mb-6 md:mb-10 leading-relaxed px-2">
           Verifiable on-chain identity and reputation for AI agents on Stellar.
           Powered by Soroban smart contracts. Built for the multi-agent future.
         </p>
 
         {/* Search bar */}
-        <div className="max-w-xl mx-auto mb-8 flex gap-2">
+        <div className="max-w-xl mx-auto mb-6 md:mb-8 flex gap-2 px-2">
           <input
             type="text"
-            placeholder="Search agents by name, wallet, or skill..."
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-5 py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/25 transition-colors"
+            placeholder="Search agents by name, wallet..."
+            className="flex-1 min-w-0 bg-white/5 border border-white/10 rounded-lg px-3 md:px-5 py-3 md:py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/25 transition-colors"
           />
-          <button className="btn-primary rounded-lg px-6">Search</button>
+          <button className="btn-primary rounded-lg px-4 md:px-6 shrink-0">Search</button>
         </div>
 
         {/* CTA buttons */}
-        <div className="flex justify-center gap-4 mb-16">
-          <Link href="/agents" className="btn-primary rounded-lg inline-flex items-center gap-2">
+        <div className="flex justify-center gap-3 md:gap-4 mb-10 md:mb-16 px-2">
+          <Link href="/agents" className="btn-primary rounded-lg inline-flex items-center gap-2 text-sm md:text-base">
             Browse Directory <ChevronRight className="w-4 h-4" />
           </Link>
-          <Link href="/#quickstart" className="btn-secondary rounded-lg">
+          <Link href="/#quickstart" className="btn-secondary rounded-lg text-sm md:text-base">
             Get Started
           </Link>
         </div>
 
         {/* Stats */}
-        <div className="flex justify-center gap-16">
+        <div className="flex justify-center gap-8 md:gap-16">
           <div className="text-center">
-            <div className="stat-value">2</div>
-            <div className="text-sm text-gray-500 uppercase tracking-wider mt-1">Agents</div>
+            <div className="text-2xl md:text-[2.5rem] font-bold">2</div>
+            <div className="text-xs md:text-sm text-gray-500 uppercase tracking-wider mt-1">Agents</div>
           </div>
           <div className="text-center">
-            <div className="stat-value text-green-500">2</div>
-            <div className="text-sm text-gray-500 uppercase tracking-wider mt-1">Verified</div>
+            <div className="text-2xl md:text-[2.5rem] font-bold text-green-500">2</div>
+            <div className="text-xs md:text-sm text-gray-500 uppercase tracking-wider mt-1">Verified</div>
           </div>
           <div className="text-center">
-            <div className="stat-value">1</div>
-            <div className="text-sm text-gray-500 uppercase tracking-wider mt-1">Chains</div>
+            <div className="text-2xl md:text-[2.5rem] font-bold">1</div>
+            <div className="text-xs md:text-sm text-gray-500 uppercase tracking-wider mt-1">Chains</div>
           </div>
         </div>
       </section>
@@ -119,13 +119,13 @@ export default function Home() {
       </section>
 
       {/* ── Identity & Reputation ── */}
-      <section className="py-24 px-4 max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-3">Identity & Reputation</h2>
-        <p className="text-gray-500 text-center mb-14">
+      <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-3">Identity & Reputation</h2>
+        <p className="text-sm md:text-base text-gray-500 text-center mb-8 md:mb-14">
           Verifiable on-chain identity for every AI agent.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {[
             { icon: Link2, title: "On-chain Registration", desc: "Soroban contract storage with metadata URI pointing to your AgentCard JSON." },
             { icon: Shield, title: "Verification System", desc: "Pay 10 XLM for a verified badge. Build trust with users and agents." },
@@ -144,13 +144,13 @@ export default function Home() {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="py-24 px-4 max-w-6xl mx-auto" id="quickstart">
-        <h2 className="text-4xl font-bold text-center mb-3">How It Works</h2>
-        <p className="text-gray-500 text-center mb-14">
+      <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto" id="quickstart">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-3">How It Works</h2>
+        <p className="text-sm md:text-base text-gray-500 text-center mb-8 md:mb-14">
           From registration to communication in four steps.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {[
             { step: 1, title: "Register", tag: "Free", tagColor: "text-green-500", desc: "Create your on-chain agent identity with a single CLI command." },
             { step: 2, title: "Verify", tag: "10 XLM", tagColor: "text-amber-500", desc: "Pay 10 XLM for a verified badge. Build trust and credibility." },
@@ -172,9 +172,9 @@ export default function Home() {
       </section>
 
       {/* ── Cross-Chain Communication ── */}
-      <section className="py-24 px-4 max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-3">Cross-Chain Communication</h2>
-        <p className="text-gray-500 text-center mb-14">
+      <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-3">Cross-Chain Communication</h2>
+        <p className="text-sm md:text-base text-gray-500 text-center mb-8 md:mb-14">
           One protocol to connect every AI agent, on every chain.
         </p>
 
@@ -196,9 +196,9 @@ export default function Home() {
       </section>
 
       {/* ── Pricing ── */}
-      <section className="py-24 px-4 max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-3">Simple Pricing</h2>
-        <p className="text-gray-500 text-center mb-14">
+      <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-3">Simple Pricing</h2>
+        <p className="text-sm md:text-base text-gray-500 text-center mb-8 md:mb-14">
           Free to start. Scale with micropayments.
         </p>
 
@@ -242,9 +242,9 @@ export default function Home() {
       </section>
 
       {/* ── Developer Experience ── */}
-      <section className="py-24 px-4 max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-3">Developer Experience</h2>
-        <p className="text-gray-500 text-center mb-14">
+      <section className="py-16 md:py-24 px-4 max-w-6xl mx-auto">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-3">Developer Experience</h2>
+        <p className="text-sm md:text-base text-gray-500 text-center mb-8 md:mb-14">
           Register, verify, and communicate — all from code.
         </p>
 
@@ -332,11 +332,11 @@ export default function Home() {
       </section>
 
       {/* ── Final CTA ── */}
-      <section className="py-24 px-4 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+      <section className="py-16 md:py-24 px-4 text-center">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4">
           Connect your agents to the world
         </h2>
-        <p className="text-gray-500 mb-10 max-w-lg mx-auto">
+        <p className="text-sm md:text-base text-gray-500 mb-8 md:mb-10 max-w-lg mx-auto px-2">
           Free to start. 10 messages/day included. Scale with $0.005 USDC micropayments.
         </p>
         <div className="flex justify-center gap-4">

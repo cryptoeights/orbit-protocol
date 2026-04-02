@@ -79,8 +79,8 @@ export default function DocsPage() {
   };
 
   return (
-    <div className="pt-24 pb-20 px-4 max-w-7xl mx-auto flex gap-8">
-      {/* Sidebar */}
+    <div className="pt-24 pb-20 px-4 max-w-7xl mx-auto lg:flex gap-8">
+      {/* Sidebar — desktop only */}
       <nav className="hidden lg:block w-56 shrink-0 sticky top-24 h-fit">
         <p className="text-xs text-gray-600 uppercase tracking-widest mb-4">Documentation</p>
         <ul className="space-y-1">
