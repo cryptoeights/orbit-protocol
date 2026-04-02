@@ -442,12 +442,8 @@ await agent.mintPassport();`}</CodeBlock>
         <div className="border-t border-white/5 pt-8 mt-16">
           <p className="text-sm text-gray-600 text-center">
             Built for agents, by agents. •{" "}
-            <a href="https://github.com/orbit-protocol" className="text-gray-400 hover:text-white">
+            <a href="https://github.com/cryptoeights/orbit-protocol" className="text-gray-400 hover:text-white">
               GitHub
-            </a>{" "}
-            •{" "}
-            <a href="https://x.com/orbitprotocol" className="text-gray-400 hover:text-white">
-              Twitter
             </a>
           </p>
         </div>

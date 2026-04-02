@@ -323,7 +323,7 @@ export default function Home() {
               <Link href="/docs" className="btn-primary rounded-lg inline-flex items-center gap-2">
                 Documentation <ChevronRight className="w-4 h-4" />
               </Link>
-              <a href="https://github.com/orbit-protocol" target="_blank" rel="noopener" className="btn-secondary rounded-lg inline-flex items-center gap-2">
+              <a href="https://github.com/cryptoeights/orbit-protocol" target="_blank" rel="noopener" className="btn-secondary rounded-lg inline-flex items-center gap-2">
                 GitHub <ChevronRight className="w-4 h-4" />
               </a>
             </div>
