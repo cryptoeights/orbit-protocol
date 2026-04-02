@@ -1,0 +1,26 @@
+{
+  "name": "@orbit-protocol/cli",
+  "version": "0.1.0",
+  "description": "ORBIT Protocol CLI — identity tools for AI agents on Stellar",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "orbit": "tsx src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "dependencies": {
+    "@stellar/stellar-sdk": "^15.0.1",
+    "commander": "^14.0.3",
+    "dotenv": "^17.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

@@ -1,0 +1,69 @@
+# ── Dependencies ──
+node_modules/
+.pnpm-store/
+
+# ── Build output ──
+.next/
+dist/
+build/
+target/
+
+# ── Environment / Secrets ──
+.env
+.env.*
+!.env.example
+frontend/.env.local
+frontend/.env*.local
+
+# ── Stellar / Soroban local data ──
+.soroban/
+.stellar/
+
+# ── IDE / Editor ──
+.idea/
+.vscode/
+*.code-workspace
+.windsurf/
+.kiro/
+.claude/
+.agents/
+.cursorrules
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ── GSD project management ──
+.gsd
+.gsd.lock
+.bg-shell/
+
+# ── Reference docs (internal planning, not for public repo) ──
+PRD.md
+ARCHITECTURE.md
+CONTRACTS.md
+API.md
+ROADMAP.md
+TOKENOMICS.md
+AGENTS.md
+CLAUDE.md
+*.docx
+skills/
+skills-lock.json
+
+# ── Misc ──
+*.log
+coverage/
+.cache/
+tmp/
+__pycache__/
+*.pyc
+.venv/
+venv/
+vendor/
+test_snapshots/
+scripts/
+cli/scripts/

@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-card: #111111;
+  --bg-card-hover: #161616;
+  --border-subtle: #1e1e1e;
+  --border-card: #252525;
+  --text-primary: #f5f5f5;
+  --text-secondary: #999999;
+  --text-muted: #666666;
+  --accent-green: #22c55e;
+  --accent-orange: #f59e0b;
+  --accent-blue: #3b82f6;
+  --accent-purple: #a855f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Dot grid background pattern */
+.dot-grid {
+  background-image: radial-gradient(circle, #ffffff08 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Floating navbar glass effect */
+.navbar-glass {
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Card styling */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: #333;
+}
+
+/* Code block styling */
+.code-block {
+  background: #0d0d0d;
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Scrolling marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Rotating text */
+@keyframes fade-rotate {
+  0%, 20% { opacity: 1; transform: translateY(0); }
+  25%, 45% { opacity: 0; transform: translateY(-20px); }
+  50%, 70% { opacity: 1; transform: translateY(0); }
+  75%, 95% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Live ticker */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Button styles */
+.btn-primary {
+  background: white;
+  color: black;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: #e5e5e5;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border-card);
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  border-color: #444;
+  background: #111;
+}
+
+/* Verified badge */
+.badge-verified {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Stat counter */
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
