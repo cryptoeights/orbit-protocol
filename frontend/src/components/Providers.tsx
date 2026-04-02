@@ -19,11 +19,10 @@ export default function Providers({ children }: { children: ReactNode }) {
           theme: "dark",
           accentColor: "#22c55e",
           showWalletLoginFirst: false,
-          logo: undefined,
         },
         loginMethods: ["email"],
         embeddedWallets: {
-          stellar: {
+          solana: {
             createOnLogin: "users-without-wallets",
           },
         },
