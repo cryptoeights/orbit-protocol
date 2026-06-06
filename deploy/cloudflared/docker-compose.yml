@@ -1,0 +1,30 @@
+# Cloudflare Tunnel — the single public entrypoint for ALL projects on this VPS.
+# No host ports are opened; cloudflared dials OUT to Cloudflare, which routes
+# each public hostname to a container on the shared `web` network.
+#
+# Setup (one time):
+#   1. Cloudflare dashboard -> Zero Trust -> Networks -> Tunnels -> Create tunnel
+#   2. Copy the tunnel token into deploy/cloudflared/.env  (TUNNEL_TOKEN=...)
+#   3. Add Public Hostnames in the dashboard (Service = the container URL):
+#        orbitprotocol.dev       -> http://frontend:3000
+#        api.orbitprotocol.dev   -> http://api:3001
+#        projectb.com            -> http://projectb-app:3000
+#        projectc.dev            -> http://projectc-app:8000
+#   4. docker compose up -d
+#
+# Because routing is by container name, every project must join the `web`
+# network (create it once: `docker network create web`).
+name: edge
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    networks: [web]
+
+networks:
+  web:
+    external: true
