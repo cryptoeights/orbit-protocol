@@ -15,6 +15,27 @@ target/
 frontend/.env.local
 frontend/.env*.local
 
+# ── Keypairs / private keys / wallet secrets ──
+# CLI `orbit wallet generate` writes secret keys to orbit-key.json by default.
+orbit-key.json
+*-key.json
+*.key.json
+*keypair*.json
+*.keypair
+secrets.json
+*.secret
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+# Cloudflare Tunnel credentials
+cert.pem
+*.cloudflared-creds.json
+
 # ── Stellar / Soroban local data ──
 .soroban/
 .stellar/

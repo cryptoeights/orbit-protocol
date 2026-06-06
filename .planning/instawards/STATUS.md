@@ -80,3 +80,4 @@ Recommended order: 1 / 2 / 3 (any order) → 4 → 5 → 6.
 | Date | Chat focus | Outcome |
 |------|-----------|---------|
 | 2026-06-06 | Assess SOW + plan jobs + GitHub activity (Tier 1) | Mapped 6 jobs; shipped repo health: Docker/deploy, CI (green), MIT license, domain→.dev, fixed 3 TS errors. Merged PR #1. Created this memory structure. |
+| 2026-06-06 | Security: gitignore audit | Audited repo — no secrets leaked/tracked, working tree clean. Hardened .gitignore for keypairs/private keys (CLI default `orbit-key.json`, *.pem, *.key, cloudflared creds). |
