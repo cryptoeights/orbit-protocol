@@ -67,6 +67,12 @@ jobs:
           cargo llvm-cov --workspace --locked --lcov --output-path lcov.info
           cargo llvm-cov --workspace --locked --summary-only
 
+      # In-scope SOW deliverable D1 = agent-registry + verification only.
+      # Out-of-scope Phase-2 contracts must not drag the gated number down.
+      - name: Coverage summary (in-scope contracts, >=80% gate)
+        run: |
+          cargo llvm-cov -p agent-registry -p verification --locked --summary-only
+
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:

@@ -1,0 +1,14 @@
+Filename                          Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+agent-registry/src/events.rs           16                 0   100.00%           3                 0   100.00%          13                 0   100.00%           0                 0         -
+agent-registry/src/lib.rs             164                 7    95.73%          10                 0   100.00%         101                 0   100.00%           0                 0         -
+agent-registry/src/storage.rs          97                 5    94.85%          11                 1    90.91%          71                 5    92.96%           0                 0         -
+agent-registry/src/test.rs            451                 0   100.00%          23                 0   100.00%         186                 0   100.00%           0                 0         -
+agent-registry/src/types.rs             3                 3     0.00%           3                 3     0.00%           3                 3     0.00%           0                 0         -
+verification/src/events.rs             12                 0   100.00%           2                 0   100.00%          11                 0   100.00%           0                 0         -
+verification/src/lib.rs               149                20    86.58%           9                 1    88.89%          90                 9    90.00%           0                 0         -
+verification/src/storage.rs           113                 5    95.58%          16                 1    93.75%          86                 5    94.19%           0                 0         -
+verification/src/test.rs              354                 0   100.00%          14                 0   100.00%         118                 0   100.00%           0                 0         -
+verification/src/types.rs               3                 3     0.00%           3                 3     0.00%           3                 3     0.00%           0                 0         -
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                1362                43    96.84%          94                 9    90.43%         682                25    96.33%           0                 0         -

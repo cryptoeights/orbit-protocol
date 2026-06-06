@@ -78,6 +78,9 @@ skills-lock.json
 # ── Misc ──
 *.log
 coverage/
+# Exception: committed contract coverage report is Instawards D1 evidence
+!contracts/coverage/
+!contracts/coverage/**
 .cache/
 tmp/
 __pycache__/
