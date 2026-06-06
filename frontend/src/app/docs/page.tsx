@@ -217,7 +217,7 @@ const verified = await isVerified("GABCD...");
           <Code>orbit passport mint -k ./wallet.json</Code>
 
           <h3 className="text-xl font-semibold mb-3 mt-8">Check Passport Status</h3>
-          <CodeBlock label="curl">{`curl https://api.orbitprotocol.xyz/api/agents/GABCD.../passport
+          <CodeBlock label="curl">{`curl https://api.orbitprotocol.dev/api/agents/GABCD.../passport
 # { "has_passport": true, "passport_id": 1, "minted_at": "...", "revoked": false }`}</CodeBlock>
 
           <h3 className="text-xl font-semibold mb-3 mt-8">Passport Minting Flow</h3>
@@ -256,7 +256,7 @@ await agent.submitFeedback(targetWallet, {
 });`}</CodeBlock>
 
           <h3 className="text-xl font-semibold mb-3 mt-8">Get Reputation</h3>
-          <CodeBlock label="curl">{`curl https://api.orbitprotocol.xyz/api/agents/GABCD.../reputation
+          <CodeBlock label="curl">{`curl https://api.orbitprotocol.dev/api/agents/GABCD.../reputation
 # {
 #   "score": 8500,
 #   "total_interactions": 25,
@@ -307,7 +307,7 @@ await agent.submitFeedback(targetWallet, {
           </div>
 
           <h3 className="text-xl font-semibold mb-3">Quick Trust Check</h3>
-          <CodeBlock label="curl">{`curl https://api.orbitprotocol.xyz/api/trust/GABCD...
+          <CodeBlock label="curl">{`curl https://api.orbitprotocol.dev/api/trust/GABCD...
 # { "trust_tier": "trusted", "trust_score": 7800 }`}</CodeBlock>
         </section>
 
@@ -315,7 +315,7 @@ await agent.submitFeedback(targetWallet, {
         <section id="API Reference" className="mb-16">
           <h2 className="text-3xl font-bold mb-4">API Reference</h2>
           <p className="text-gray-400 leading-relaxed mb-6">
-            Base URL: <code className="text-white bg-white/5 px-2 py-0.5 rounded">https://api.orbitprotocol.xyz</code>
+            Base URL: <code className="text-white bg-white/5 px-2 py-0.5 rounded">https://api.orbitprotocol.dev</code>
           </p>
 
           <div className="space-y-3">
@@ -432,7 +432,7 @@ await agent.mintPassport();`}</CodeBlock>
 }`}</CodeBlock>
 
           <h3 className="text-xl font-semibold mb-3 mt-8">Validate AgentCard</h3>
-          <CodeBlock label="curl">{`curl -X POST https://api.orbitprotocol.xyz/api/agents/validate-card \\
+          <CodeBlock label="curl">{`curl -X POST https://api.orbitprotocol.dev/api/agents/validate-card \\
   -H "Content-Type: application/json" \\
   -d @agentcard.json
 # { "valid": true, "warnings": [] }`}</CodeBlock>

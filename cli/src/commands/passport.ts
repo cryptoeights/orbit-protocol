@@ -31,7 +31,7 @@ passportCmd
 
       const uri =
         opts.metadataUri ||
-        `https://api.orbitprotocol.xyz/passports/${agent.agent_id}.json`;
+        `https://api.orbitprotocol.dev/passports/${agent.agent_id}.json`;
 
       console.log(`\n  Minting passport for agent #${agent.agent_id}...`);
 
