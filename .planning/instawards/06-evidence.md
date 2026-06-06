@@ -10,7 +10,7 @@ Instawards Airtable form. Map each deliverable to its proof.
 ### D1 — Smart Contracts
 - [ ] Public GitHub repo link: https://github.com/cryptoeights/orbit-protocol
 - [ ] Testnet tx hashes (deployment) → stellar.expert links
-- [ ] Coverage report (>80%) → from Job 01
+- [x] Coverage report (>80%) → from Job 01: **96.33% lines** (agent-registry + verification). Report at `contracts/coverage/` (HTML + `summary.txt` + `lcov.info` + `README.md`); regenerated in CI `contracts.yml` → `Coverage` job (`coverage-lcov` artifact).
 
 ### D2 — SDK + CLI
 - [ ] npm package link: https://www.npmjs.com/package/@orbit-protocol/agent → Job 02

@@ -3,7 +3,7 @@
 > **READ THIS FIRST** at the start of every chat. It's the single source of truth
 > for the Instawards engagement. Update it at the END of every chat.
 
-Last updated: 2026-06-06
+Last updated: 2026-06-06 (Job #1 done)
 
 ---
 
@@ -58,7 +58,7 @@ At the end of a chat, write results to the job file and update the table below.
 | # | Job | File | Status | Depends on |
 |---|-----|------|--------|------------|
 | 0 | GitHub activity / repo health (CI, license, Docker, domain) | `00-github-activity.md` | ✅ **DONE** | — |
-| 1 | Contract coverage report >80% (D1 evidence) | `01-coverage.md` | ⬜ TODO | — |
+| 1 | Contract coverage report >80% (D1 evidence) | `01-coverage.md` | ✅ **DONE** (96.33% lines) | — |
 | 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ⬜ TODO | — |
 | 3 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `03-deploy-vps.md` | ⬜ TODO | — |
 | 4 | End-to-end verify (CLI register → directory) | `04-e2e-verify.md` | ⬜ TODO | #2, #3 |
@@ -81,3 +81,4 @@ Recommended order: 1 / 2 / 3 (any order) → 4 → 5 → 6.
 |------|-----------|---------|
 | 2026-06-06 | Assess SOW + plan jobs + GitHub activity (Tier 1) | Mapped 6 jobs; shipped repo health: Docker/deploy, CI (green), MIT license, domain→.dev, fixed 3 TS errors. Merged PR #1. Created this memory structure. |
 | 2026-06-06 | Security: gitignore audit | Audited repo — no secrets leaked/tracked, working tree clean. Hardened .gitignore for keypairs/private keys (CLI default `orbit-key.json`, *.pem, *.key, cloudflared creds). |
+| 2026-06-06 | Job #1: contract coverage (D1) | Installed Rust+cargo-llvm-cov locally (Approach B). In-scope coverage = **96.33% lines** (agent-registry+verification), ≥80% ✅. Committed report to `contracts/coverage/` (HTML+summary+lcov); added in-scope CI summary step; un-ignored coverage dir for evidence. |
