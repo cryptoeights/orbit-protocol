@@ -33,6 +33,7 @@ export const AgentCardSchema = z.object({
   // Optional - Commercial
   pricing: z
     .record(
+      z.string(),
       z.object({
         amount: z.string(),
         currency: z.enum(["USDC", "XLM"]),
