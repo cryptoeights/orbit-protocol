@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Emit a self-contained server bundle (.next/standalone/server.js) for slim
+  // Docker images — no node_modules needed at runtime. See Dockerfile.
+  output: "standalone",
   async headers() {
     return [
       {

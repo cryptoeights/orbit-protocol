@@ -1,5 +1,10 @@
 # ORBIT Protocol
 
+[![Contracts](https://github.com/cryptoeights/orbit-protocol/actions/workflows/contracts.yml/badge.svg)](https://github.com/cryptoeights/orbit-protocol/actions/workflows/contracts.yml)
+[![CI](https://github.com/cryptoeights/orbit-protocol/actions/workflows/ci.yml/badge.svg)](https://github.com/cryptoeights/orbit-protocol/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Network: Stellar Testnet](https://img.shields.io/badge/network-Stellar%20Testnet-7B61FF.svg)](https://stellar.expert/explorer/testnet)
+
 **Identity Infrastructure for AI Agents on Stellar**
 
 ORBIT Protocol provides verifiable on-chain identity, reputation tracking, and soulbound passports for AI agents — built on Stellar blockchain using Soroban smart contracts.

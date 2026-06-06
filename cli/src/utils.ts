@@ -8,7 +8,10 @@ export async function apiGet(path: string): Promise<any> {
   const url = `${cfg.apiUrl}${path}`;
   const res = await fetch(url);
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
+    const body = (await res.json().catch(() => ({}))) as {
+      message?: string;
+      error?: string;
+    };
     throw new Error(
       body.message || body.error || `API error: ${res.status} ${res.statusText}`
     );
@@ -24,7 +27,10 @@ export async function apiPost(path: string, body?: any): Promise<any> {
     body: body ? JSON.stringify(body) : undefined,
   });
   if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
+    const data = (await res.json().catch(() => ({}))) as {
+      message?: string;
+      error?: string;
+    };
     throw new Error(
       data.message || data.error || `API error: ${res.status} ${res.statusText}`
     );
