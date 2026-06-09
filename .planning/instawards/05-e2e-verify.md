@@ -1,6 +1,6 @@
-# Job 04 — End-to-End Verification
+# Job 05 — End-to-End Verification
 
-Status: ⬜ TODO · Deliverable: cross-cutting (D1+D2+D3) · Depends on: #2, #3
+Status: ⬜ TODO · Deliverable: cross-cutting (D1+D2+D3) · Depends on: #2, #4
 
 ## Goal
 Prove the full loop works on testnet: a developer uses the published CLI to register
