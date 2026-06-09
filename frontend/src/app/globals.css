@@ -323,3 +323,18 @@ footer {
 .cursor-blink {
   animation: blink 1.1s step-end infinite;
 }
+
+/* Streaming log line entrance */
+@keyframes logIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .pulse-dot,
+  .cursor-blink {
+    animation: none !important;
+  }
+}

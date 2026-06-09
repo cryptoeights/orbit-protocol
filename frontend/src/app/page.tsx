@@ -34,6 +34,68 @@ function LiveTicker() {
   );
 }
 
+// ── Live count-up metric (animates on mount, then ticks up) ──
+function LiveCounter({ start = 4_180_400, target = 4_182_990 }: { start?: number; target?: number }) {
+  const [value, setValue] = useState(start);
+
+  // count-up to target on mount
+  useEffect(() => {
+    const duration = 1400;
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      setValue(Math.round(start + (target - start) * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [start, target]);
+
+  // keep ticking up so it feels live
+  useEffect(() => {
+    const id = setInterval(() => {
+      setValue((v) => v + Math.floor(Math.random() * 4) + 1);
+    }, 2200);
+    return () => clearInterval(id);
+  }, []);
+
+  return <span>{value.toLocaleString("en-US")}</span>;
+}
+
+// ── Rolling terminal log (new lines stream in) ──
+const LOG_LINES = [
+  { mark: "✓", cls: "text-[var(--accent-green)]", text: "verify GBX4…R2TY → tier:2" },
+  { mark: "✓", cls: "text-[var(--accent-green)]", text: "resolve GDQZ…6NO → ok" },
+  { mark: "→", cls: "text-[var(--violet-400)]", text: "route msg → delivered" },
+  { mark: "✓", cls: "text-[var(--accent-green)]", text: "feedback GCXF…CIZ +1" },
+  { mark: "✓", cls: "text-[var(--accent-green)]", text: "passport GDQZ…6NO minted" },
+  { mark: "→", cls: "text-[var(--violet-400)]", text: "resolve name agent.orbit → ok" },
+];
+
+function LiveLog() {
+  const [start, setStart] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setStart((s) => (s + 1) % LOG_LINES.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+  const visible = [0, 1, 2].map((o) => LOG_LINES[(start + o) % LOG_LINES.length]);
+  return (
+    <div className="mt-5 pt-5 border-t border-[var(--border-subtle)] space-y-1.5 text-xs">
+      {visible.map((l, i) => (
+        <div
+          key={`${start}-${i}`}
+          className="text-[var(--text-muted)]"
+          style={{ animation: "logIn 0.4s ease both", opacity: i === 2 ? 0.55 : 1 }}
+        >
+          <span className={l.cls}>{l.mark}</span> {l.text}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ── Reusable section heading (two-tone display) ──
 function SectionHead({
   label,
@@ -125,7 +187,9 @@ export default function Home() {
             </div>
             <div className="p-5 md:p-6 font-mono">
               <p className="label-mono mb-2">Resolutions routed</p>
-              <div className="stat-value text-gradient mb-1">4,182,990</div>
+              <div className="stat-value text-gradient mb-1 tabular-nums">
+                <LiveCounter />
+              </div>
               <div className="grid grid-cols-2 gap-4 mt-5 pt-5 border-t border-[var(--border-subtle)]">
                 <div>
                   <div className="text-2xl font-bold text-white">2,464</div>
@@ -137,18 +201,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* mini log */}
-              <div className="mt-5 pt-5 border-t border-[var(--border-subtle)] space-y-1.5 text-xs">
-                <div className="text-[var(--text-muted)]">
-                  <span className="text-[var(--accent-green)]">✓</span> verify GBX4…R2TY → tier:2
-                </div>
-                <div className="text-[var(--text-muted)]">
-                  <span className="text-[var(--accent-green)]">✓</span> resolve GDQZ…6NO → ok
-                </div>
-                <div className="text-[var(--text-muted)]">
-                  <span className="text-[var(--violet-400)]">→</span> route msg → delivered
-                </div>
-              </div>
+              {/* live log */}
+              <LiveLog />
             </div>
           </div>
         </div>
