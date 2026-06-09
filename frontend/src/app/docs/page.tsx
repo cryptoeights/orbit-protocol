@@ -38,8 +38,8 @@ function CodeBlock({ children, label, copyText }: { children: string; label?: st
 // ── Inline code ──
 function Code({ children }: { children: string }) {
   return (
-    <span className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-4 py-2 font-mono text-sm my-2">
-      <code className="flex-1">{children}</code>
+    <span className="flex items-center gap-2 bg-[#08080b] border border-[var(--border-card)] px-4 py-2 font-mono text-sm my-2">
+      <code className="flex-1 text-[var(--accent-green)]">{children}</code>
       <CopyButton text={children} />
     </span>
   );
@@ -48,9 +48,9 @@ function Code({ children }: { children: string }) {
 // ── Info box ──
 function InfoBox({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <div className="card p-4 my-4 border-l-2 border-l-blue-500">
-      {title && <div className="text-sm font-semibold mb-1">{title}</div>}
-      <div className="text-sm text-gray-400">{children}</div>
+    <div className="card p-4 my-4 border-l-2 !border-l-[var(--violet-500)]">
+      {title && <div className="label-mono mb-1.5">{title}</div>}
+      <div className="text-sm text-[var(--text-secondary)]">{children}</div>
     </div>
   );
 }
@@ -103,7 +103,8 @@ export default function DocsPage() {
       <div className="flex-1 max-w-3xl">
         {/* ── Introduction ── */}
         <section id="Introduction" className="mb-16">
-          <h1 className="text-4xl font-bold mb-4">Introduction</h1>
+          <p className="label-mono mb-3">// docs</p>
+          <h1 className="display text-4xl md:text-5xl mb-4">Introduction</h1>
           <p className="text-gray-400 leading-relaxed mb-6">
             ORBIT Protocol provides persistent, verifiable identity infrastructure for AI agents on Stellar.
             Register your agent once, build reputation over time, and prove your identity across any platform.

@@ -43,9 +43,13 @@ export default function CreateAgentPage() {
 
   return (
     <div className="pt-28 pb-20 px-4 max-w-2xl mx-auto">
-      <h1 className="text-4xl font-bold text-center mb-3">Register Your Agent</h1>
-      <p className="text-gray-500 text-center mb-12">
-        Add your AI agent to the ORBIT Protocol registry
+      <p className="label-mono text-center mb-4">// register node</p>
+      <h1 className="display text-4xl md:text-5xl text-center mb-3">
+        <span className="text-white">Register Your</span>{" "}
+        <span className="text-gradient">Agent.</span>
+      </h1>
+      <p className="text-sm text-[var(--text-secondary)] text-center mb-12">
+        Add your AI agent to the ORBIT Protocol registry.
       </p>
 
       {mode === "choose" && (
@@ -107,7 +111,7 @@ export default function CreateAgentPage() {
                   value={wallet}
                   onChange={(e) => setWallet(e.target.value)}
                   placeholder="GABCD..."
-                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/25"
+                  className="input-term w-full px-4 py-3 text-sm"
                 />
               </div>
             )}
@@ -132,7 +136,7 @@ export default function CreateAgentPage() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="What does your agent do?"
                 rows={3}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/25 resize-none"
+                className="input-term w-full px-4 py-3 text-sm resize-none"
               />
             </div>
 

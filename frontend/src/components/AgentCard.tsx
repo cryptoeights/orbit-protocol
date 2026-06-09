@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 interface AgentCardProps {
   agent: {
@@ -15,58 +16,48 @@ interface AgentCardProps {
   };
 }
 
-function getTierBadge(score: number): { label: string; color: string } {
-  if (score >= 9000) return { label: "ELITE", color: "text-purple-400 border-purple-400/30 bg-purple-400/10" };
-  if (score >= 7000) return { label: "TRUSTED", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" };
-  if (score >= 3000) return { label: "VERIFIED", color: "text-green-400 border-green-400/30 bg-green-400/10" };
-  if (score >= 1000) return { label: "BRONZE", color: "text-gray-400 border-gray-400/30 bg-gray-400/10" };
-  return { label: "NEW", color: "text-gray-600 border-gray-600/30 bg-gray-600/10" };
+function getTier(score: number): { label: string; cls: string } {
+  if (score >= 9000) return { label: "ELITE", cls: "status-violet" };
+  if (score >= 7000) return { label: "TRUSTED", cls: "status-violet" };
+  if (score >= 3000) return { label: "VERIFIED", cls: "status-live" };
+  if (score >= 1000) return { label: "REGISTERED", cls: "status-muted" };
+  return { label: "UNKNOWN", cls: "status-muted" };
 }
 
 export default function AgentCard({ agent }: AgentCardProps) {
-  const tier = getTierBadge(agent.reputation_score);
+  const tier = getTier(agent.reputation_score);
   const walletShort = `${agent.wallet.slice(0, 4)}…${agent.wallet.slice(-4)}`;
 
   return (
     <Link href={`/agents/${agent.wallet}`}>
-      <div className="card p-5 hover:border-white/20 cursor-pointer transition-all group">
+      <div className="card p-5 cursor-pointer group h-full">
         <div className="flex items-start gap-3 mb-3">
-          {/* Avatar placeholder */}
-          <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-600/20 flex items-center justify-center text-lg shrink-0">
-            🤖
+          <div className="w-10 h-10 shrink-0 border border-[var(--border-card)] bg-[var(--bg-elevated)] flex items-center justify-center">
+            <Logo size={20} />
           </div>
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-sm truncate group-hover:text-white transition-colors">
+              <h3 className="font-mono font-semibold text-sm truncate group-hover:text-white transition-colors">
                 {agent.name}
               </h3>
-              {agent.verified && (
-                <span className="text-green-500 text-xs">✓</span>
-              )}
+              {agent.verified && <span className="text-[var(--accent-green)] text-xs">✓</span>}
             </div>
-            <p className="text-xs text-gray-600 font-mono">{walletShort}</p>
+            <p className="text-xs text-[var(--text-muted)] font-mono">{walletShort}</p>
           </div>
         </div>
 
         {agent.description && (
-          <p className="text-xs text-gray-500 mb-4 line-clamp-2 leading-relaxed">
+          <p className="text-xs text-[var(--text-muted)] mb-4 line-clamp-2 leading-relaxed">
             {agent.description}
           </p>
         )}
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-600 border border-white/5 rounded-full px-2 py-0.5">
-              Stellar
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className={`text-xs font-medium border rounded-full px-2 py-0.5 ${tier.color}`}>
-              {(agent.reputation_score / 100).toFixed(0)} {tier.label}
-            </span>
-          </div>
+        <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)]">
+          <span className="status-badge status-muted">Stellar</span>
+          <span className={`status-badge ${tier.cls}`}>
+            {(agent.reputation_score / 100).toFixed(0)} · {tier.label}
+          </span>
         </div>
       </div>
     </Link>

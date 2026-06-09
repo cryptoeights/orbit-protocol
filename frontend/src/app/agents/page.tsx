@@ -43,65 +43,62 @@ export default function AgentsDirectory() {
   const verifiedCount = agents.filter((a) => a.verified).length;
 
   return (
-    <div className="pt-28 pb-20 px-4 max-w-6xl mx-auto">
+    <div className="pt-24 pb-24 px-4 max-w-6xl mx-auto">
       {/* Header */}
-      <h1 className="text-4xl md:text-5xl font-bold text-center mb-3">
-        Agent Directory
-      </h1>
-      <p className="text-gray-500 text-center mb-10">
-        Discover verified AI agents on Stellar
-      </p>
+      <div className="text-center mb-10">
+        <p className="label-mono mb-4">// agent registry</p>
+        <h1 className="display text-4xl md:text-6xl">
+          <span className="text-white">Agent</span>{" "}
+          <span className="text-gradient">Registry.</span>
+        </h1>
+        <p className="text-sm text-[var(--text-secondary)] mt-4">
+          Discover and resolve verified AI agents on Stellar.
+        </p>
+      </div>
 
       {/* Search */}
-      <div className="max-w-2xl mx-auto mb-8">
+      <div className="max-w-2xl mx-auto mb-6">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-faint)]" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search agents by name, description, or wallet..."
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/25 transition-colors"
+            placeholder="search by name, description, or wallet…"
+            className="input-term w-full pl-11 pr-4 py-3.5 text-sm"
           />
         </div>
       </div>
 
       {/* Sort tabs */}
-      <div className="flex justify-center gap-2 mb-10">
+      <div className="flex justify-center flex-wrap gap-px mb-10 bg-[var(--border-card)] border border-[var(--border-card)] w-fit mx-auto">
         {sortTabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setSort(tab.key)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all ${
               sort === tab.key
-                ? "bg-white/10 text-white border border-white/20"
-                : "text-gray-500 hover:text-gray-300 border border-transparent"
+                ? "bg-[var(--bg-card-hover)] text-white"
+                : "bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]"
             }`}
           >
-            <tab.icon className="w-4 h-4" />
+            <tab.icon className="w-3.5 h-3.5" />
             {tab.label}
           </button>
         ))}
       </div>
 
       {/* Stats */}
-      <div className="flex justify-center gap-10 mb-12">
-        <div className="text-center">
-          <div className="text-3xl font-bold">{total}</div>
-          <div className="text-sm text-gray-500">Total Agents</div>
+      <div className="flex justify-center gap-px mb-12 w-fit mx-auto bg-[var(--border-card)] border border-[var(--border-card)]">
+        <div className="bg-[var(--bg-card)] px-8 py-4 text-center">
+          <div className="text-3xl font-bold text-white">{total}</div>
+          <p className="label-mono mt-1">Total Agents</p>
         </div>
-        <div className="text-center">
-          <div className="text-3xl font-bold text-green-500">{verifiedCount}</div>
-          <div className="text-sm text-gray-500">Verified</div>
+        <div className="bg-[var(--bg-card)] px-8 py-4 text-center">
+          <div className="text-3xl font-bold text-[var(--accent-green)]">{verifiedCount}</div>
+          <p className="label-mono mt-1">Verified</p>
         </div>
       </div>
-
-      {/* Verified section header */}
-      {verifiedCount > 0 && (
-        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <span className="text-green-500">✓</span> Verified Agents
-        </h2>
-      )}
 
       {/* Agent grid */}
       {loading ? (
@@ -109,21 +106,25 @@ export default function AgentsDirectory() {
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="card p-5 animate-pulse">
               <div className="flex gap-3 mb-3">
-                <div className="w-11 h-11 rounded-lg bg-white/5" />
+                <div className="w-10 h-10 bg-white/5" />
                 <div className="flex-1">
-                  <div className="h-4 bg-white/5 rounded w-24 mb-2" />
-                  <div className="h-3 bg-white/5 rounded w-16" />
+                  <div className="h-4 bg-white/5 w-24 mb-2" />
+                  <div className="h-3 bg-white/5 w-16" />
                 </div>
               </div>
-              <div className="h-3 bg-white/5 rounded w-full mb-2" />
-              <div className="h-3 bg-white/5 rounded w-2/3" />
+              <div className="h-3 bg-white/5 w-full mb-2" />
+              <div className="h-3 bg-white/5 w-2/3" />
             </div>
           ))}
         </div>
       ) : agents.length === 0 ? (
-        <div className="text-center py-20 text-gray-500">
-          <p className="text-lg mb-2">No agents found</p>
-          <p className="text-sm">Try a different search or check back later.</p>
+        <div className="text-center py-20 dot-grid border border-[var(--border-card)]">
+          <p className="font-mono text-sm text-[var(--text-secondary)] mb-2">
+            <span className="text-[var(--text-faint)]">$</span> no agents found
+          </p>
+          <p className="text-xs text-[var(--text-muted)]">
+            Try a different query or register the first agent.
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
