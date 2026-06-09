@@ -20,10 +20,14 @@ video in Job 06), so the branded design must be live **before** we deploy once.
     Sections: Nav `72:4` · Hero `72:25` · Registry Marquee `74:2` · x402 Messaging `74:13` ·
     Verifiable Trust `75:2` · Integrate `77:2` · Final CTA `77:38` · Footer `77:51`.
 
-## ⚠️ OPEN DECISIONS (user must pick before building)
-1. **Which variant?** A (violet/rounded) vs B (terminal/mono) — or a hybrid. Mocks are drafts ("nanti kita sesuaikan").
-2. **Scope:** landing page only, or also bring directory / profile / docs / create-agent pages up to brand?
-   (SOW D3 requires landing + directory + profile + quick-start docs to all exist & be responsive.)
+## ✅ DECISIONS (locked 2026-06-08)
+1. **Variant B — Terminal / mono** (Figma page 13 `72:2`, root `72:3`, Jatevo-style):
+   pure black `#050506`, **JetBrains Mono everywhere** + Inter Bold for huge two-tone
+   display headlines, **sharp corners (radius 0)**, faint scanlines + subtle violet glow,
+   right-side terminal/flow cards (numbered steps, `● status` badges), mono code/JSON
+   snippets, stat bars. Accent = violet (brand) + **green for verified/live**.
+2. **Scope = landing + ALL pages**: bring directory, profile (`agents/[wallet]`), docs,
+   create-agent, profile up to the terminal brand too (not just the landing page).
 
 ## Acceptance criteria
 - [ ] Approved variant ported to `frontend/src/app/page.tsx` (+ components), using `DESIGN.md` tokens in `globals.css`.
