@@ -34,6 +34,15 @@ export default function RootLayout({
       className={`dark ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen antialiased">
+        {/* Animated background (Jatevo-style aurora + grid + orbs) */}
+        <div className="bg-fx" aria-hidden="true">
+          <div className="bg-fx-grid" />
+          <div className="bg-fx-aurora" />
+          <div className="bg-fx-orb bg-fx-orb-1" />
+          <div className="bg-fx-orb bg-fx-orb-2" />
+          <div className="bg-fx-vignette" />
+          <div className="bg-fx-scan" />
+        </div>
         <Providers>
           <Navbar />
           <main>{children}</main>

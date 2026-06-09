@@ -59,13 +59,82 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Faint terminal scanlines over the whole page */
-body::before {
-  content: "";
+main,
+nav,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   Animated background (Jatevo-style): violet aurora mesh +
+   drifting glow orbs + subtle grid + center vignette + faint
+   scanlines. One fixed layer behind all content.
+   ============================================================ */
+.bg-fx {
   position: fixed;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
   pointer-events: none;
+}
+.bg-fx > * {
+  position: absolute;
+  inset: 0;
+}
+
+/* drifting dot/line grid */
+.bg-fx-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridDrift 26s linear infinite;
+}
+
+/* animated violet aurora mesh */
+.bg-fx-aurora {
+  background:
+    radial-gradient(40% 50% at 20% 18%, rgba(124, 58, 237, 0.30) 0%, transparent 60%),
+    radial-gradient(45% 55% at 82% 26%, rgba(139, 92, 246, 0.24) 0%, transparent 62%),
+    radial-gradient(50% 60% at 60% 92%, rgba(167, 139, 250, 0.18) 0%, transparent 65%);
+  background-size: 200% 200%;
+  filter: blur(8px);
+  animation: auroraShift 22s ease-in-out infinite;
+}
+
+/* large drifting glow orbs */
+.bg-fx-orb {
+  border-radius: 9999px;
+  filter: blur(110px);
+}
+.bg-fx-orb-1 {
+  width: 42rem;
+  height: 42rem;
+  top: -12rem;
+  left: -8rem;
+  inset: auto;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.40) 0%, transparent 70%);
+  animation: floatA 24s ease-in-out infinite;
+}
+.bg-fx-orb-2 {
+  width: 38rem;
+  height: 38rem;
+  top: 20%;
+  right: -10rem;
+  left: auto;
+  inset: auto;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.28) 0%, transparent 70%);
+  animation: floatB 30s ease-in-out infinite;
+}
+
+/* center vignette — darken edges toward bg */
+.bg-fx-vignette {
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-primary) 95%);
+}
+
+/* faint terminal scanlines (topmost bg layer) */
+.bg-fx-scan {
   background-image: repeating-linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.018) 0px,
@@ -75,11 +144,22 @@ body::before {
   );
 }
 
-main,
-nav,
-footer {
-  position: relative;
-  z-index: 1;
+@keyframes gridDrift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 48px 48px, 48px 48px; }
+}
+@keyframes auroraShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes floatA {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(60px, 50px); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-70px, -40px); }
 }
 
 /* Huge two-tone display headlines use Inter Bold */
@@ -334,7 +414,10 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .marquee,
   .pulse-dot,
-  .cursor-blink {
+  .cursor-blink,
+  .bg-fx-grid,
+  .bg-fx-aurora,
+  .bg-fx-orb {
     animation: none !important;
   }
 }
