@@ -3,7 +3,7 @@
 > **READ THIS FIRST** at the start of every chat. It's the single source of truth
 > for the Instawards engagement. Update it at the END of every chat.
 
-Last updated: 2026-06-08 (Job #2 DONE — published to npm)
+Last updated: 2026-06-09 (Job #3 DONE — frontend redesigned to Variant B terminal brand)
 
 ---
 
@@ -60,7 +60,7 @@ At the end of a chat, write results to the job file and update the table below.
 | 0 | GitHub activity / repo health (CI, license, Docker, domain) | `00-github-activity.md` | ✅ **DONE** | — |
 | 1 | Contract coverage report >80% (D1 evidence) | `01-coverage.md` | ✅ **DONE** (96.33% lines) | — |
 | 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ✅ **DONE** (npm v0.1.0 live) | — |
-| 3 | **Frontend redesign — port brand system to code (Figma→React)** | `03-frontend.md` | ⬜ TODO | — |
+| 3 | **Frontend redesign — port brand system to code (Figma→React)** | `03-frontend.md` | ✅ **DONE** (Variant B terminal, all pages) | — |
 | 4 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `04-deploy-vps.md` | ⬜ TODO | #3 |
 | 5 | End-to-end verify (CLI register → directory) | `05-e2e-verify.md` | ⬜ TODO | #2, #4 |
 | 6 | Demo videos (CLI flow + site walkthrough) | `06-demo-video.md` | ⬜ TODO | #2, #4, #5 |
@@ -90,3 +90,4 @@ Frontend MUST land before deploy — the deployed site is the public face + D3 e
 | 2026-06-08 | Job #2: SDK rename + npm prep (D2) | Renamed pkg → `@orbit-protocol/agent`; added `bin`/`exports`/`files`, MIT, README/LICENSE. New `ORBITAgent` class (`agent.ts`) + side-effect-free SDK entry (`lib.ts`) + dependency-free AgentCard v1.0 types (`agentcard.ts`). Default apiUrl→prod, dotenv quiet. Verified via Approach A (packed tarball installed in clean dir: bin + ESM import both work). **Publish pending** — `npm whoami`=E401, user needs npm account/login. Steps in `02-npm-publish.md`. |
 | 2026-06-08 | Job #2: PUBLISHED | User created npm account + scope, ran `npm publish --access public`. **`@orbit-protocol/agent@0.1.0` live** at npmjs.com. Approach B smoke test passed (`npx … --version`→0.1.0). Recorded in evidence file (D2 ✅). |
 | 2026-06-08 | Plan fix: insert Frontend job | Caught gap — frontend redesign (Figma, 2 variants) not yet ported to React; live site still un-branded. Inserted **Job 3 (frontend)** before deploy; renumbered deploy→4, e2e→5, video→6, evidence→7. Updated deps + recommended order. |
+| 2026-06-09 | Job #3: frontend redesign (D3) | Ported **Variant B (terminal/mono)** from Figma to React across ALL pages. Rewrote `globals.css` as terminal token system (pure black, JetBrains Mono + Inter display, radius 0, scanlines, violet glow, brand-gradient CTAs); self-hosted fonts via `next/font/google`. Rebuilt landing + restyled nav/footer/cards/registry/profile/docs/create-agent/security; new `Logo.tsx` Constellation mark; Privy accent → brand violet. Privy wiring intact. **Verified:** tsc clean, `next build` 9/9 green, all 6 routes 200, live screenshot matches mock. Flagged 2 pre-existing content bugs for follow-up (docs cite old `@orbit-protocol/cli`; create-agent hardcodes `localhost:3001`). |

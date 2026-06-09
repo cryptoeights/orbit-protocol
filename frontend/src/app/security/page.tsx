@@ -1,8 +1,9 @@
 export default function SecurityPage() {
   return (
     <div className="pt-28 pb-20 px-4 max-w-3xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6">Security</h1>
-      
+      <p className="label-mono mb-3">// security</p>
+      <h1 className="display text-4xl md:text-5xl mb-6">Security</h1>
+
       <div className="space-y-8 text-gray-400 leading-relaxed">
         <section>
           <h2 className="text-xl font-semibold text-white mb-3">Smart Contract Security</h2>

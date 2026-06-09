@@ -17,6 +17,7 @@ import {
   Star,
 } from "lucide-react";
 import { getAgent, getReputation, getPassport, getLinkedWallets, getTrustDetails } from "@/lib/api";
+import Logo from "@/components/Logo";
 
 function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
@@ -73,10 +74,10 @@ export default function AgentProfile() {
       <div className="pt-28 pb-20 px-4 max-w-4xl mx-auto">
         <div className="animate-pulse space-y-6">
           <div className="flex gap-4">
-            <div className="w-20 h-20 rounded-xl bg-white/5" />
+            <div className="w-20 h-20 bg-white/5" />
             <div className="flex-1 space-y-3">
-              <div className="h-8 bg-white/5 rounded w-48" />
-              <div className="h-4 bg-white/5 rounded w-64" />
+              <div className="h-8 bg-white/5 w-48" />
+              <div className="h-4 bg-white/5 w-64" />
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4">
@@ -92,12 +93,13 @@ export default function AgentProfile() {
   if (notFound) {
     return (
       <div className="pt-28 pb-20 px-4 text-center">
-        <h1 className="text-3xl font-bold mb-3">Agent Not Found</h1>
-        <p className="text-gray-500 mb-6">
+        <p className="label-mono mb-3">// 404</p>
+        <h1 className="display text-3xl md:text-4xl mb-3">Agent Not Found</h1>
+        <p className="text-sm text-[var(--text-secondary)] mb-6">
           This agent doesn&apos;t exist or hasn&apos;t been registered yet.
         </p>
-        <Link href="/agents" className="btn-primary rounded-lg">
-          Browse Directory
+        <Link href="/agents" className="btn-primary">
+          Browse Registry
         </Link>
       </div>
     );
@@ -118,19 +120,22 @@ export default function AgentProfile() {
     <div className="pt-28 pb-20 px-4 max-w-4xl mx-auto">
       {/* ── Header ── */}
       <div className="flex items-start gap-5 mb-10">
-        <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-600/20 flex items-center justify-center text-3xl shrink-0">
-          🤖
+        <div className="w-20 h-20 border border-[var(--border-card)] bg-[var(--bg-elevated)] flex items-center justify-center shrink-0">
+          <Logo size={44} />
         </div>
         <div>
-          <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-3xl font-bold">{agent.name}</h1>
+          <div className="flex items-center gap-3 mb-1 flex-wrap">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{agent.name}</h1>
             {agent.verified && (
-              <span className="badge-verified flex items-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5" /> Verified
+              <span className="badge-verified inline-flex items-center gap-1">
+                <CheckCircle className="w-3 h-3" /> Verified
               </span>
             )}
           </div>
-          <p className="text-gray-500">{agent.description || "No description"}</p>
+          <p className="font-mono text-xs text-[var(--text-muted)] mb-1">
+            {wallet.slice(0, 6)}…{wallet.slice(-6)}
+          </p>
+          <p className="text-sm text-[var(--text-secondary)]">{agent.description || "No description"}</p>
         </div>
       </div>
 
@@ -296,8 +301,8 @@ export default function AgentProfile() {
       <div className="card p-5 mb-6">
         {passport?.has_passport ? (
           <div className="flex items-start gap-4">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-3xl">
-              🛂
+            <div className="w-20 h-20 bg-[var(--bg-elevated)] border border-[var(--violet-600)]/40 flex items-center justify-center">
+              <Logo size={40} />
             </div>
             <div>
               <p className="text-sm text-gray-400 mb-2">
@@ -313,8 +318,8 @@ export default function AgentProfile() {
           </div>
         ) : (
           <div className="flex items-start gap-4">
-            <div className="w-20 h-20 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-3xl opacity-50">
-              🛂
+            <div className="w-20 h-20 bg-[var(--bg-elevated)] border border-[var(--border-card)] flex items-center justify-center opacity-40">
+              <Logo size={40} />
             </div>
             <div>
               <p className="text-sm text-gray-400 mb-3">

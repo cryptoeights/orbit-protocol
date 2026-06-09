@@ -17,7 +17,7 @@ export default function Providers({ children }: { children: ReactNode }) {
       config={{
         appearance: {
           theme: "dark",
-          accentColor: "#22c55e",
+          accentColor: "#8B5CF6",
           showWalletLoginFirst: false,
         },
         loginMethods: ["email"],

@@ -63,8 +63,8 @@ export default function ProfilePage() {
         <div className="lg:col-span-1">
           <div className="card p-6 text-center">
             {/* Avatar */}
-            <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
-              <User className="w-10 h-10 text-gray-500" />
+            <div className="w-24 h-24 bg-[var(--bg-elevated)] border border-[var(--border-card)] flex items-center justify-center mx-auto mb-4">
+              <User className="w-10 h-10 text-[var(--text-muted)]" />
             </div>
 
             {/* Name / Email */}
