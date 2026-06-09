@@ -1,6 +1,6 @@
-# Job 05 — Demo Videos
+# Job 06 — Demo Videos
 
-Status: ⬜ TODO · Deliverable: **D2 + D3** (evidence) · Depends on: #2, #3, #4
+Status: ⬜ TODO · Deliverable: **D2 + D3** (evidence) · Depends on: #2, #4, #5
 
 ## Goal
 Record the demo videos the SOW requires as evidence.

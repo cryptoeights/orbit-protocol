@@ -3,7 +3,7 @@
 > **READ THIS FIRST** at the start of every chat. It's the single source of truth
 > for the Instawards engagement. Update it at the END of every chat.
 
-Last updated: 2026-06-06 (Job #1 done)
+Last updated: 2026-06-08 (Job #2 DONE — published to npm)
 
 ---
 
@@ -59,19 +59,23 @@ At the end of a chat, write results to the job file and update the table below.
 |---|-----|------|--------|------------|
 | 0 | GitHub activity / repo health (CI, license, Docker, domain) | `00-github-activity.md` | ✅ **DONE** | — |
 | 1 | Contract coverage report >80% (D1 evidence) | `01-coverage.md` | ✅ **DONE** (96.33% lines) | — |
-| 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ⬜ TODO | — |
-| 3 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `03-deploy-vps.md` | ⬜ TODO | — |
-| 4 | End-to-end verify (CLI register → directory) | `04-e2e-verify.md` | ⬜ TODO | #2, #3 |
-| 5 | Demo videos (CLI flow + site walkthrough) | `05-demo-video.md` | ⬜ TODO | #2, #3, #4 |
-| 6 | Evidence submission package for Ambassador | `06-evidence.md` | ⬜ TODO | #1–#5 |
+| 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ✅ **DONE** (npm v0.1.0 live) | — |
+| 3 | **Frontend redesign — port brand system to code (Figma→React)** | `03-frontend.md` | ⬜ TODO | — |
+| 4 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `04-deploy-vps.md` | ⬜ TODO | #3 |
+| 5 | End-to-end verify (CLI register → directory) | `05-e2e-verify.md` | ⬜ TODO | #2, #4 |
+| 6 | Demo videos (CLI flow + site walkthrough) | `06-demo-video.md` | ⬜ TODO | #2, #4, #5 |
+| 7 | Evidence submission package for Ambassador | `07-evidence.md` | ⬜ TODO | #1–#6 |
 
-Recommended order: 1 / 2 / 3 (any order) → 4 → 5 → 6.
+Recommended order: **3 (frontend) → 4 (deploy) → 5 (e2e) → 6 (video) → 7 (evidence)**.
+Frontend MUST land before deploy — the deployed site is the public face + D3 evidence
+(screenshots/video), so deploy the final branded design once, not the grey placeholder.
 
 ---
 
 ## Open decisions needing the user
 
-- **Hosting vs SOW:** SOW says "deployed on Vercel"; plan is VPS. Inform Kenny (Ambassador Lead) so evidence review has no gap. (Tracked in `03-deploy-vps.md` and `06-evidence.md`.)
+- **Hosting vs SOW:** SOW says "deployed on Vercel"; plan is VPS. Inform Kenny (Ambassador Lead) so evidence review has no gap. (Tracked in `04-deploy-vps.md` and `07-evidence.md`.)
+- **Frontend variant (Job 3):** Figma has two drafts — **A** violet/rounded (page 12) vs **B** terminal/mono (page 13). User must pick variant + scope (landing only vs all pages) before building. See `03-frontend.md`.
 
 ---
 
@@ -82,3 +86,6 @@ Recommended order: 1 / 2 / 3 (any order) → 4 → 5 → 6.
 | 2026-06-06 | Assess SOW + plan jobs + GitHub activity (Tier 1) | Mapped 6 jobs; shipped repo health: Docker/deploy, CI (green), MIT license, domain→.dev, fixed 3 TS errors. Merged PR #1. Created this memory structure. |
 | 2026-06-06 | Security: gitignore audit | Audited repo — no secrets leaked/tracked, working tree clean. Hardened .gitignore for keypairs/private keys (CLI default `orbit-key.json`, *.pem, *.key, cloudflared creds). |
 | 2026-06-06 | Job #1: contract coverage (D1) | Installed Rust+cargo-llvm-cov locally (Approach B). In-scope coverage = **96.33% lines** (agent-registry+verification), ≥80% ✅. Committed report to `contracts/coverage/` (HTML+summary+lcov); added in-scope CI summary step; un-ignored coverage dir for evidence. |
+| 2026-06-08 | Job #2: SDK rename + npm prep (D2) | Renamed pkg → `@orbit-protocol/agent`; added `bin`/`exports`/`files`, MIT, README/LICENSE. New `ORBITAgent` class (`agent.ts`) + side-effect-free SDK entry (`lib.ts`) + dependency-free AgentCard v1.0 types (`agentcard.ts`). Default apiUrl→prod, dotenv quiet. Verified via Approach A (packed tarball installed in clean dir: bin + ESM import both work). **Publish pending** — `npm whoami`=E401, user needs npm account/login. Steps in `02-npm-publish.md`. |
+| 2026-06-08 | Job #2: PUBLISHED | User created npm account + scope, ran `npm publish --access public`. **`@orbit-protocol/agent@0.1.0` live** at npmjs.com. Approach B smoke test passed (`npx … --version`→0.1.0). Recorded in evidence file (D2 ✅). |
+| 2026-06-08 | Plan fix: insert Frontend job | Caught gap — frontend redesign (Figma, 2 variants) not yet ported to React; live site still un-branded. Inserted **Job 3 (frontend)** before deploy; renumbered deploy→4, e2e→5, video→6, evidence→7. Updated deps + recommended order. |

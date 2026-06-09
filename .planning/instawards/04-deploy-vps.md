@@ -1,6 +1,6 @@
-# Job 03 — Deploy to VPS, Go Live at orbitprotocol.dev
+# Job 04 — Deploy to VPS, Go Live at orbitprotocol.dev
 
-Status: ⬜ TODO · Deliverable: **D3**
+Status: ⬜ TODO · Deliverable: **D3** · Depends on: **#3 (frontend redesign live first)**
 
 ## Goal
 Get the full stack live: `orbitprotocol.dev` (frontend) + `api.orbitprotocol.dev` (API),
