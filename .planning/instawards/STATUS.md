@@ -75,7 +75,8 @@ Frontend MUST land before deploy — the deployed site is the public face + D3 e
 ## Open decisions needing the user
 
 - **Hosting vs SOW:** SOW says "deployed on Vercel"; plan is VPS. Inform Kenny (Ambassador Lead) so evidence review has no gap. (Tracked in `04-deploy-vps.md` and `07-evidence.md`.)
-- **Frontend variant (Job 3):** Figma has two drafts — **A** violet/rounded (page 12) vs **B** terminal/mono (page 13). User must pick variant + scope (landing only vs all pages) before building. See `03-frontend.md`.
+- ~~Frontend variant (Job 3)~~ **RESOLVED 2026-06-08:** Variant **B (terminal/mono, Figma page 13)**, scope = **landing + all pages**. See `03-frontend.md`.
+- **PENDING — Job 2 loose end:** SDK code published to npm is **not yet committed** (`cli/*`, `DESIGN.md`, `.gitignore`). User chose to commit later. Repo ≠ npm until then. Don't forget before evidence submission (Job 7).
 
 ---
 
