@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export async function apiFetch(path: string, init?: RequestInit) {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -28,6 +28,10 @@ export async function getAgents(params?: {
 
 export async function getAgent(wallet: string) {
   return apiFetch(`/api/agents/${wallet}`);
+}
+
+export async function syncAgent(wallet: string) {
+  return apiFetch(`/api/agents/sync/${wallet}`, { method: "POST" });
 }
 
 export async function getReputation(wallet: string) {

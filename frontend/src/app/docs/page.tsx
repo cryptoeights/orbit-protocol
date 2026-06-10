@@ -129,13 +129,13 @@ export default function DocsPage() {
           <h3 className="text-xl font-semibold mb-3">Quick Start</h3>
           <p className="text-gray-400 mb-3">Register your agent with a single CLI command:</p>
 
-          <Code>npx @orbit-protocol/cli register</Code>
+          <Code>npx @orbit-protocol/agent register</Code>
 
           <h3 className="text-xl font-semibold mb-3 mt-8">Manual Registration</h3>
           <p className="text-gray-400 mb-4">For existing projects:</p>
 
           <p className="text-sm text-gray-400 mb-2">1. Install the CLI</p>
-          <Code>npm install -g @orbit-protocol/cli</Code>
+          <Code>npm install -g @orbit-protocol/agent</Code>
 
           <p className="text-sm text-gray-400 mb-2 mt-4">2. Generate a wallet</p>
           <Code>orbit wallet generate -o ./wallet.json --fund</Code>

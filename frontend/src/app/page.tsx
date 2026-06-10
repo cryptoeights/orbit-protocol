@@ -124,8 +124,6 @@ export default function Home() {
     <div className="pb-20">
       {/* ════════ HERO ════════ */}
       <section className="relative pt-28 md:pt-36 pb-16 px-4 overflow-hidden">
-        <div className="glow-violet w-[40rem] h-[40rem] -top-40 left-1/2 -translate-x-1/2 opacity-60" />
-
         <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           {/* Left */}
           <div>
@@ -192,11 +190,11 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-4 mt-5 pt-5 border-t border-[var(--border-subtle)]">
                 <div>
-                  <div className="text-2xl font-bold text-white">2,464</div>
+                  <div className="text-2xl font-bold text-[var(--violet-400)]">2,464</div>
                   <p className="label-mono mt-1">Agents indexed</p>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-white">$0.005</div>
+                  <div className="text-2xl font-bold text-[var(--violet-400)]">$0.005</div>
                   <p className="label-mono mt-1">Per message</p>
                 </div>
               </div>
@@ -215,7 +213,7 @@ export default function Home() {
             { v: "1", l: "Chain (Stellar)" },
           ].map((s) => (
             <div key={s.l} className="card p-5 text-center">
-              <div className="text-2xl md:text-3xl font-bold text-white">{s.v}</div>
+              <div className="text-2xl md:text-3xl font-bold text-[var(--violet-400)]">{s.v}</div>
               <p className="label-mono mt-1">{s.l}</p>
             </div>
           ))}
@@ -428,7 +426,6 @@ export default function Home() {
       {/* ════════ FINAL CTA ════════ */}
       <section className="py-12 md:py-20 px-4">
         <div className="relative max-w-4xl mx-auto term-card overflow-hidden text-center px-6 py-16 md:py-20">
-          <div className="glow-violet w-[28rem] h-[28rem] -bottom-40 left-1/2 -translate-x-1/2 opacity-50" />
           <div className="relative">
             <p className="label-mono mb-4">// join the network</p>
             <h2 className="display text-3xl md:text-5xl mb-4">

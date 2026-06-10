@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Search, Crown, Star, Zap } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import { getAgents } from "@/lib/api";
+import { listAgentsOnChain, getAgentCount } from "@/lib/orbit-chain";
 
 const sortTabs = [
   { key: "reputation", label: "Top Reputation", icon: Crown },
@@ -17,6 +18,7 @@ export default function AgentsDirectory() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("reputation");
   const [loading, setLoading] = useState(true);
+  const [chainOnly, setChainOnly] = useState(false);
 
   useEffect(() => {
     const fetchAgents = async () => {
@@ -29,8 +31,50 @@ export default function AgentsDirectory() {
         });
         setAgents(data.agents || []);
         setTotal(data.total || 0);
-      } catch (e) {
-        console.error("Failed to fetch agents:", e);
+        setChainOnly(false);
+      } catch {
+        // Directory API offline — list the latest agents straight from the
+        // registry contract (on-chain is source of truth). Search/sort are
+        // applied client-side over this page of results.
+        try {
+          const [onChain, count] = await Promise.all([
+            listAgentsOnChain(12),
+            getAgentCount(),
+          ]);
+          const q = search.trim().toLowerCase();
+          const mapped = onChain
+            .map((a) => ({
+              agent_id: Number(a.id),
+              wallet: a.owner,
+              name: a.name,
+              description: a.description,
+              verified: a.verified,
+              verification_tier: a.verified ? "basic" : "none",
+              reputation_score: a.reputation?.score ?? 0,
+              total_interactions: a.reputation?.totalInteractions ?? 0,
+              has_passport: false,
+              status: "active",
+            }))
+            .filter(
+              (a) =>
+                !q ||
+                a.name.toLowerCase().includes(q) ||
+                a.description.toLowerCase().includes(q) ||
+                a.wallet.toLowerCase().includes(q)
+            )
+            .sort((a, b) =>
+              sort === "newest"
+                ? b.agent_id - a.agent_id
+                : sort === "interactions"
+                  ? b.total_interactions - a.total_interactions
+                  : b.reputation_score - a.reputation_score
+            );
+          setAgents(mapped);
+          setTotal(count);
+          setChainOnly(true);
+        } catch (e) {
+          console.error("Failed to fetch agents:", e);
+        }
       } finally {
         setLoading(false);
       }
@@ -55,6 +99,15 @@ export default function AgentsDirectory() {
           Discover and resolve verified AI agents on Stellar.
         </p>
       </div>
+
+      {chainOnly && (
+        <div className="max-w-2xl mx-auto mb-6 p-3 border border-[var(--accent-amber)]/40 bg-[var(--accent-amber)]/10">
+          <p className="text-xs text-[var(--accent-amber)] font-mono">
+            ⚠ Showing the latest {agents.length}{" "}agents directly from chain —
+            directory API offline. Trust-tier data unavailable.
+          </p>
+        </div>
+      )}
 
       {/* Search */}
       <div className="max-w-2xl mx-auto mb-6">
