@@ -2,6 +2,16 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.29.3",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@reown/appkit",
+      "bufferutil",
+      "keccak",
+      "sharp",
+      "utf-8-validate"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
