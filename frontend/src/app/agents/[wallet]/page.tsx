@@ -17,6 +17,15 @@ import {
   Star,
 } from "lucide-react";
 import { getAgent, getReputation, getPassport, getLinkedWallets, getTrustDetails } from "@/lib/api";
+import {
+  getAgentByWallet,
+  getReputationOnChain,
+  isVerifiedOnChain,
+  submitFeedback,
+  connectWallet,
+  getConnectedAddress,
+  explorerTxUrl,
+} from "@/lib/orbit-chain";
 import Logo from "@/components/Logo";
 
 function copyToClipboard(text: string) {
@@ -42,6 +51,66 @@ export default function AgentProfile() {
   const [trust, setTrust] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [chainOnly, setChainOnly] = useState(false);
+
+  // Feedback widget (Freighter-signed submit_feedback).
+  const [fbContext, setFbContext] = useState("");
+  const [fbBusy, setFbBusy] = useState<false | "up" | "down">(false);
+  const [fbError, setFbError] = useState("");
+  const [fbTx, setFbTx] = useState("");
+  const [connectedAddr, setConnectedAddr] = useState<string | null>(null);
+
+  // Silently read the connected Freighter address (no popup) so the widget
+  // can hide itself when the visitor IS this agent's owner.
+  useEffect(() => {
+    let active = true;
+    getConnectedAddress().then((addr) => {
+      if (active) setConnectedAddr(addr);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const isOwner = connectedAddr === wallet;
+
+  const handleFeedback = async (positive: boolean) => {
+    if (!agent?.agent_id || fbBusy) return;
+    setFbError("");
+    setFbTx("");
+    setFbBusy(positive ? "up" : "down");
+    try {
+      // Defensive: connecting here also covers visitors who weren't connected
+      // when the page loaded (connect popup appears once, then is silent).
+      const addr = await connectWallet();
+      setConnectedAddr(addr);
+      if (addr === wallet) {
+        setFbError("You can't submit feedback on your own agent.");
+        return;
+      }
+      const { hash } = await submitFeedback({
+        agentId: agent.agent_id,
+        positive,
+        context: fbContext.trim(),
+      });
+      setFbTx(hash);
+      setFbContext("");
+      // Refresh the score straight from chain so the change is visible live.
+      const rep = await getReputationOnChain(agent.agent_id).catch(() => null);
+      if (rep) {
+        setReputation({
+          score: rep.score,
+          total_interactions: rep.totalInteractions,
+          positive_count: rep.positiveCount,
+          negative_count: rep.negativeCount,
+        });
+      }
+    } catch (e: any) {
+      setFbError(e?.message || "Feedback failed");
+    } finally {
+      setFbBusy(false);
+    }
+  };
 
   useEffect(() => {
     async function load() {
@@ -61,7 +130,40 @@ export default function AgentProfile() {
         setWallets(wall);
         setTrust(tr);
       } catch {
-        setNotFound(true);
+        // Directory API unreachable or agent not cached — fall back to
+        // reading the registry contract directly (on-chain is source of truth).
+        const onChain = await getAgentByWallet(wallet).catch(() => null);
+        if (onChain) {
+          // Reputation and verification also live on-chain — read them too.
+          const [rep, verified] = await Promise.all([
+            getReputationOnChain(onChain.id).catch(() => null),
+            isVerifiedOnChain(onChain.id).catch(() => false),
+          ]);
+          setAgent({
+            agent_id: Number(onChain.id),
+            wallet,
+            name: onChain.name,
+            description: onChain.description,
+            verified,
+            verification_tier: verified ? "basic" : "none",
+            reputation_score: rep?.score ?? 0,
+            total_interactions: rep?.totalInteractions ?? 0,
+            has_passport: false,
+            status: "active",
+            created_at: onChain.createdAt,
+          });
+          if (rep) {
+            setReputation({
+              score: rep.score,
+              total_interactions: rep.totalInteractions,
+              positive_count: rep.positiveCount,
+              negative_count: rep.negativeCount,
+            });
+          }
+          setChainOnly(true);
+        } else {
+          setNotFound(true);
+        }
       } finally {
         setLoading(false);
       }
@@ -118,6 +220,15 @@ export default function AgentProfile() {
 
   return (
     <div className="pt-28 pb-20 px-4 max-w-4xl mx-auto">
+      {chainOnly && (
+        <div className="mb-6 p-3 border border-[var(--accent-amber)]/40 bg-[var(--accent-amber)]/10">
+          <p className="text-xs text-[var(--accent-amber)] font-mono">
+            ⚠ Loaded directly from chain — directory API offline. Reputation,
+            trust, and passport data unavailable until it&apos;s back.
+          </p>
+        </div>
+      )}
+
       {/* ── Header ── */}
       <div className="flex items-start gap-5 mb-10">
         <div className="w-20 h-20 border border-[var(--border-card)] bg-[var(--bg-elevated)] flex items-center justify-center shrink-0">
@@ -232,6 +343,70 @@ export default function AgentProfile() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* ── Give Feedback (on-chain, Freighter-signed) ── */}
+      <h2 className="text-xl font-semibold mb-4">Give Feedback</h2>
+      <div className="card p-5 mb-10">
+        {isOwner ? (
+          <p className="text-xs text-[var(--text-muted)] font-mono">
+            <span className="text-[var(--violet-400)]">●</span> Connected as this
+            agent&apos;s owner — you can&apos;t review your own agent. Switch to a
+            different account in Freighter to rate other agents.
+          </p>
+        ) : (
+        <>
+        <p className="text-xs text-[var(--text-muted)] mb-4">
+          Rate this agent on-chain. Freighter signs{" "}
+          <code className="text-[var(--text-secondary)]">submit_feedback</code> — requires
+          ≥10 XLM balance, once per 24h per agent, and you can&apos;t rate your own agent.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input
+            type="text"
+            value={fbContext}
+            onChange={(e) => setFbContext(e.target.value)}
+            placeholder="context — why this rating? (optional, emitted on-chain)"
+            disabled={Boolean(fbBusy)}
+            className="input-term flex-1 px-4 py-2.5 text-sm"
+          />
+          <div className="flex gap-2 shrink-0">
+            <button
+              onClick={() => handleFeedback(true)}
+              disabled={Boolean(fbBusy)}
+              className="btn-secondary !py-2.5 !border-[var(--accent-green)]/40 hover:!border-[var(--accent-green)] !text-[var(--accent-green)]"
+            >
+              {fbBusy === "up" ? "Signing…" : "👍 Positive"}
+            </button>
+            <button
+              onClick={() => handleFeedback(false)}
+              disabled={Boolean(fbBusy)}
+              className="btn-secondary !py-2.5 !border-[var(--accent-red)]/40 hover:!border-[var(--accent-red)] !text-[var(--accent-red)]"
+            >
+              {fbBusy === "down" ? "Signing…" : "👎 Negative"}
+            </button>
+          </div>
+        </div>
+        {fbError && (
+          <p className="text-xs text-[var(--accent-red)] font-mono mt-3">{fbError}</p>
+        )}
+        {fbTx && (
+          <p className="text-xs font-mono mt-3">
+            <span className="text-[var(--accent-green)]">✓ feedback recorded on-chain</span>{" "}
+            ·{" "}
+            <a
+              href={explorerTxUrl(fbTx)}
+              target="_blank"
+              rel="noopener"
+              className="text-[var(--violet-400)] hover:underline inline-flex items-center gap-1"
+            >
+              {fbTx.slice(0, 10)}… <ExternalLink className="w-3 h-3" />
+            </a>{" "}
+            <span className="text-[var(--text-muted)]">— score updated above</span>
+          </p>
+        )}
+        </>
+        )}
       </div>
 
       {/* ── On-Chain Identity ── */}
