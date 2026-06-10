@@ -47,7 +47,7 @@ jobs:
       - run: pnpm build
 
   frontend:
-    name: Frontend typecheck
+    name: Frontend build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -63,6 +63,5 @@ jobs:
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      # Typecheck only — a full `next build` initializes the Privy provider,
-      # which rejects placeholder app IDs. The real build runs at deploy time.
       - run: pnpm exec tsc --noEmit
+      - run: pnpm build

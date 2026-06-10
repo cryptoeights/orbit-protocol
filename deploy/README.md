@@ -65,7 +65,7 @@ git clone https://github.com/cryptoeights/orbit-protocol.git orbit
 ```bash
 cd /opt/orbit/deploy
 cp .env.example .env
-nano .env                       # set POSTGRES_PASSWORD + NEXT_PUBLIC_PRIVY_APP_ID
+nano .env                       # set POSTGRES_PASSWORD
 
 docker compose up -d --build    # build images + start all 4 services
 
