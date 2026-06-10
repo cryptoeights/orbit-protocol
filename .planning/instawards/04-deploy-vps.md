@@ -1,6 +1,6 @@
 # Job 04 — Deploy to VPS, Go Live at orbitprotocol.dev
 
-Status: ⬜ TODO · Deliverable: **D3** · Depends on: **#3 (frontend redesign live first)**
+Status: ✅ **DONE 2026-06-10** · Deliverable: **D3** · Depends on: **#3 (frontend redesign live first)**
 
 ## Goal
 Get the full stack live: `orbitprotocol.dev` (frontend) + `api.orbitprotocol.dev` (API),
@@ -38,7 +38,47 @@ so the Ambassador verification has no gap. Note this in `06-evidence.md`.
 - Real Privy app ID for production build (frontend bakes `NEXT_PUBLIC_PRIVY_APP_ID` at build).
 - Does the API need a funded admin key on the VPS for any write paths? (verification fees etc.)
 
-## Result (fill at end of chat)
-- Live frontend URL:
-- Live API URL:
+## Progress 2026-06-10 (this chat)
+- ✅ Docker + compose installed on VPS; shared network `web` created.
+- ✅ Repo cloned to `/opt/orbit`; `deploy/.env` written (generated strong
+  POSTGRES_PASSWORD, Privy app id `cmngnyavv014f0cjyr62uxvlo`, contract IDs,
+  `NEXT_PUBLIC_API_URL=https://api.orbitprotocol.dev`). chmod 600.
+- ⚠️ Frontend image build failed: new pnpm hard-fails on unapproved dependency
+  build scripts (`ERR_PNPM_IGNORED_BUILDS`). **Fixed** by pinning
+  `packageManager: pnpm@10.29.3` + `pnpm.onlyBuiltDependencies` in
+  `frontend/package.json` — PR #12 merged to main (CI green); VPS clone reset
+  to merged main.
+- ✅ Full stack up: `orbit-postgres-1`, `orbit-redis-1`, `orbit-api-1`,
+  `orbit-frontend-1`. DB schema pushed (`pnpm db:push` → changes applied).
+- ✅ Verified inside docker network `web`: frontend:3000 → HTTP 200;
+  api:3001/health → healthy (database ok, redis ok, all 5 contract IDs).
+- ✅ Cloudflare Tunnel: no CF API token exists anywhere locally/VPS →
+  used `cloudflared tunnel login` flow (user authorized in browser; first
+  attempt failed — nonroot container couldn't write cert; rerun `--user root`).
+  `tunnel create orbit` → id `d1663c84-5556-4253-8ea6-72daa6217e6f`;
+  `tunnel route dns` added CNAMEs for both hostnames; cert-based (locally
+  managed) tunnel — config at `/root/.cloudflared/config.yml`, NOT the repo's
+  token-based compose. Container `cloudflared` (`--restart unless-stopped`,
+  network `web`, `--user root -e HOME=/root`).
+- Existing Caddy (b402 proxy, ports 80/443) untouched — tunnel needs no ports.
+- Note for user: add `https://orbitprotocol.dev` to the Privy app's allowed
+  domains/origins (dashboard) or wallet login may be blocked on prod.
+
+## Result
+- Live frontend URL: **https://orbitprotocol.dev** — HTTP 200, HTTP/2 + TLS,
+  branded title; all routes 200: `/`, `/agents`, `/create-agent`, `/docs`,
+  `/profile`, `/security`.
+- Live API URL: **https://api.orbitprotocol.dev** — `/health` → healthy
+  (database ok, redis ok, testnet, all 5 contract IDs).
 - Notes:
+  - API `/api/agents` returns `total: 0` — prod DB is fresh; directory relies
+    on the client-side **chain fallback** (reads contracts via simulation),
+    same code proven working in the 2026-06-10 web on-chain session. Visual
+    browser check + screenshots NOT yet done this chat (Chrome extension was
+    offline) → fold into Job 5 (e2e) / Job 6 (video) which need them anyway.
+  - Tunnel is cert-based via `docker run`, not `deploy/cloudflared/`
+    token compose — update `deploy/README.md` later or migrate to token flow.
+  - `frontend/package.json` fix (pnpm pin + onlyBuiltDependencies) merged as
+    PR #12; VPS clone reset to merged main.
+  - Day-2 ops: `cd /opt/orbit && git pull && cd deploy && docker compose up -d --build`.
+  - ⚠️ Still must inform Kenny re: VPS-instead-of-Vercel SOW deviation.

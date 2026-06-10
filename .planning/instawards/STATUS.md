@@ -3,7 +3,7 @@
 > **READ THIS FIRST** at the start of every chat. It's the single source of truth
 > for the Instawards engagement. Update it at the END of every chat.
 
-Last updated: 2026-06-10 (Web on-chain flows: Freighter register/feedback + chain fallbacks; E2E register proven via SDK + web)
+Last updated: 2026-06-10 (Job 4 DONE: orbitprotocol.dev + api.orbitprotocol.dev LIVE from VPS via Cloudflare Tunnel)
 
 ---
 
@@ -61,12 +61,12 @@ At the end of a chat, write results to the job file and update the table below.
 | 1 | Contract coverage report >80% (D1 evidence) | `01-coverage.md` | ✅ **DONE** (96.33% lines) | — |
 | 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ✅ **DONE** (npm v0.1.0 live) | — |
 | 3 | **Frontend redesign — port brand system to code (Figma→React)** | `03-frontend.md` | ✅ **DONE** (Variant B terminal, all pages) | — |
-| 4 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `04-deploy-vps.md` | ⬜ TODO | #3 |
+| 4 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `04-deploy-vps.md` | ✅ **DONE** (site + API live) | #3 |
 | 5 | End-to-end verify (CLI register → directory) | `05-e2e-verify.md` | ⬜ TODO | #2, #4 |
 | 6 | Demo videos (CLI flow + site walkthrough) | `06-demo-video.md` | ⬜ TODO | #2, #4, #5 |
 | 7 | Evidence submission package for Ambassador | `07-evidence.md` | ⬜ TODO | #1–#6 |
 
-Recommended order: **3 (frontend) → 4 (deploy) → 5 (e2e) → 6 (video) → 7 (evidence)**.
+Recommended order: **5 (e2e) → 6 (video) → 7 (evidence)**.
 Frontend MUST land before deploy — the deployed site is the public face + D3 evidence
 (screenshots/video), so deploy the final branded design once, not the grey placeholder.
 
@@ -84,6 +84,7 @@ Frontend MUST land before deploy — the deployed site is the public face + D3 e
 
 | Date | Chat focus | Outcome |
 |------|-----------|---------|
+| 2026-06-10 | Job #4: deploy VPS (D3) | **LIVE: https://orbitprotocol.dev + https://api.orbitprotocol.dev.** VPS: Docker installed, repo → `/opt/orbit`, `deploy/.env` (strong pg password, Privy id), stack up (pg/redis/api/frontend), schema pushed. Fixed frontend Docker build break (new pnpm `ERR_PNPM_IGNORED_BUILDS` → pin `pnpm@10.29.3` + `onlyBuiltDependencies`, PR #12 merged, CI green). Cloudflare Tunnel `orbit` (`d1663c84…`) via cert login flow (no CF API token exists); CNAMEs auto-added; cloudflared container on `web` network; b402 Caddy untouched. All 6 routes 200 + API `/health` healthy publicly. Pending: live screenshots (Chrome ext offline → do in Job 5/6), Privy allowed-domains add, inform Kenny re: Vercel→VPS deviation. |
 | 2026-06-06 | Assess SOW + plan jobs + GitHub activity (Tier 1) | Mapped 6 jobs; shipped repo health: Docker/deploy, CI (green), MIT license, domain→.dev, fixed 3 TS errors. Merged PR #1. Created this memory structure. |
 | 2026-06-06 | Security: gitignore audit | Audited repo — no secrets leaked/tracked, working tree clean. Hardened .gitignore for keypairs/private keys (CLI default `orbit-key.json`, *.pem, *.key, cloudflared creds). |
 | 2026-06-06 | Job #1: contract coverage (D1) | Installed Rust+cargo-llvm-cov locally (Approach B). In-scope coverage = **96.33% lines** (agent-registry+verification), ≥80% ✅. Committed report to `contracts/coverage/` (HTML+summary+lcov); added in-scope CI summary step; un-ignored coverage dir for evidence. |
