@@ -61,8 +61,9 @@ so the Ambassador verification has no gap. Note this in `06-evidence.md`.
   token-based compose. Container `cloudflared` (`--restart unless-stopped`,
   network `web`, `--user root -e HOME=/root`).
 - Existing Caddy (b402 proxy, ports 80/443) untouched — tunnel needs no ports.
-- Note for user: add `https://orbitprotocol.dev` to the Privy app's allowed
-  domains/origins (dashboard) or wallet login may be blocked on prod.
+- ~~Note for user: add `https://orbitprotocol.dev` to the Privy app's allowed
+  domains/origins.~~ **OBSOLETE same day:** Privy removed entirely (PR #13) —
+  auth is Freighter-only; `NEXT_PUBLIC_PRIVY_APP_ID` purged from env/compose.
 
 ## Result
 - Live frontend URL: **https://orbitprotocol.dev** — HTTP 200, HTTP/2 + TLS,
