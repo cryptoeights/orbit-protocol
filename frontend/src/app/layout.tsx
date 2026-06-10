@@ -3,7 +3,6 @@ import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Providers from "@/components/Providers";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -101,11 +100,9 @@ export default function RootLayout({
           <div className="bg-fx-vignette" />
           <div className="bg-fx-scan" />
         </div>
-        <Providers>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </Providers>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

@@ -32,7 +32,7 @@ export default function SecurityPage() {
         <section>
           <h2 className="text-xl font-semibold text-white mb-3">Authentication</h2>
           <ul className="space-y-2 text-sm">
-            <li>• Privy-powered email authentication with embedded wallet generation</li>
+            <li>• Non-custodial Freighter wallet authentication — keys never leave your browser extension</li>
             <li>• All blockchain transactions signed client-side — server never holds keys</li>
             <li>• Multi-wallet support with dual-auth requirement for wallet linking</li>
           </ul>

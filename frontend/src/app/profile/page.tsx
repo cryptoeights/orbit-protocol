@@ -1,60 +1,178 @@
 "use client";
 
-import { usePrivy } from "@privy-io/react-auth";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { User, Edit, Bot, MessageSquare, Calendar, Key, Shield } from "lucide-react";
+import {
+  User,
+  Bot,
+  MessageSquare,
+  Calendar,
+  Key,
+  Shield,
+  LogOut,
+  Wallet,
+  BadgeCheck,
+} from "lucide-react";
 import Link from "next/link";
+import {
+  getConnectedAddress,
+  connectWallet,
+  disconnectWallet,
+  isFreighterInstalled,
+  getAgentByWallet,
+  getReputationOnChain,
+  isVerifiedOnChain,
+  shortAddr,
+  type OnChainAgent,
+  type OnChainReputation,
+} from "@/lib/orbit-chain";
+
+interface ProfileData {
+  agent: OnChainAgent | null;
+  reputation: OnChainReputation | null;
+  verified: boolean;
+}
+
+async function loadProfile(address: string): Promise<ProfileData> {
+  const agent = await getAgentByWallet(address);
+  if (!agent) return { agent: null, reputation: null, verified: false };
+  const [reputation, verified] = await Promise.all([
+    getReputationOnChain(agent.id),
+    isVerifiedOnChain(agent.id),
+  ]);
+  return { agent, reputation, verified };
+}
+
+function formatMemberSince(createdAt: number): string {
+  if (!createdAt) return "—";
+  return new Date(createdAt * 1000).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="pt-28 pb-20 px-4 text-center">
+      <div className="animate-pulse">
+        <div className="w-24 h-24 bg-white/5 mx-auto mb-4" />
+        <div className="h-4 bg-white/5 w-32 mx-auto" />
+      </div>
+    </div>
+  );
+}
+
+function ConnectPrompt({
+  onConnect,
+  connecting,
+  freighterMissing,
+}: {
+  onConnect: () => void;
+  connecting: boolean;
+  freighterMissing: boolean;
+}) {
+  return (
+    <div className="pt-28 pb-20 px-4 max-w-md mx-auto text-center">
+      <div className="card p-10">
+        <div className="w-16 h-16 bg-[var(--bg-elevated)] border border-[var(--border-card)] flex items-center justify-center mx-auto mb-5">
+          <Wallet className="w-7 h-7 text-[var(--violet-400)]" />
+        </div>
+        <h1 className="text-xl font-semibold mb-2">Connect your wallet</h1>
+        <p className="text-sm text-gray-500 mb-6">
+          Your profile is your Stellar wallet. Connect Freighter to view your
+          on-chain agent identity and reputation.
+        </p>
+        {freighterMissing ? (
+          <a
+            href="https://freighter.app"
+            target="_blank"
+            rel="noopener"
+            className="btn-primary w-full inline-block"
+          >
+            Install Freighter
+          </a>
+        ) : (
+          <button
+            onClick={onConnect}
+            disabled={connecting}
+            className="btn-primary w-full"
+          >
+            {connecting ? "Connecting…" : "Connect Freighter"}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function ProfilePage() {
-  const { ready, authenticated, user, logout } = usePrivy();
-  const router = useRouter();
-  const [stellarWallet, setStellarWallet] = useState<string | null>(null);
+  const [restoring, setRestoring] = useState(true);
+  const [connecting, setConnecting] = useState(false);
+  const [freighterMissing, setFreighterMissing] = useState(false);
+  const [address, setAddress] = useState<string | null>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
 
+  // Silent session restore on mount (no popup).
   useEffect(() => {
-    if (ready && !authenticated) {
-      router.push("/");
-    }
-  }, [ready, authenticated, router]);
+    let active = true;
+    (async () => {
+      const installed = await isFreighterInstalled();
+      if (active && !installed) setFreighterMissing(true);
+      const addr = await getConnectedAddress();
+      if (active && addr) setAddress(addr);
+      if (active) setRestoring(false);
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
 
-  // Find Stellar wallet from Privy user's linked accounts
+  // Load on-chain agent + reputation whenever the wallet changes.
   useEffect(() => {
-    if (user?.linkedAccounts) {
-      const stellarAccount = user.linkedAccounts.find(
-        (a: any) => a.type === "wallet" && a.chainType === "stellar"
-      );
-      if (stellarAccount) {
-        setStellarWallet((stellarAccount as any).address);
-      }
-      // Also check embedded wallets
-      const embeddedStellar = user.linkedAccounts.find(
-        (a: any) => a.type === "embedded_wallet" || (a.chainType === "stellar")
-      );
-      if (embeddedStellar && !stellarWallet) {
-        setStellarWallet((embeddedStellar as any).address || null);
-      }
+    if (!address) {
+      setProfile(null);
+      return;
     }
-  }, [user, stellarWallet]);
+    let active = true;
+    loadProfile(address).then((data) => {
+      if (active) setProfile(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, [address]);
 
-  if (!ready || !authenticated) {
+  const handleConnect = async () => {
+    setConnecting(true);
+    try {
+      const addr = await connectWallet();
+      setAddress(addr);
+    } catch {
+      // user rejected or Freighter missing — stay on the prompt
+    } finally {
+      setConnecting(false);
+    }
+  };
+
+  const handleDisconnect = () => {
+    disconnectWallet();
+    setAddress(null);
+  };
+
+  if (restoring) return <LoadingSkeleton />;
+  if (!address) {
     return (
-      <div className="pt-28 pb-20 px-4 text-center">
-        <div className="animate-pulse">
-          <div className="w-24 h-24 rounded-full bg-white/5 mx-auto mb-4" />
-          <div className="h-4 bg-white/5 rounded w-32 mx-auto" />
-        </div>
-      </div>
+      <ConnectPrompt
+        onConnect={handleConnect}
+        connecting={connecting}
+        freighterMissing={freighterMissing}
+      />
     );
   }
 
-  const email = user?.email?.address || "";
-  const displayName = email.split("@")[0] || "Agent";
-  const memberSince = user?.createdAt
-    ? new Date(user.createdAt).toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      })
-    : "2026";
+  const agent = profile?.agent ?? null;
+  const reputation = profile?.reputation ?? null;
+  const displayName = agent?.name || shortAddr(address);
+  const memberSince = formatMemberSince(agent?.createdAt ?? 0);
 
   return (
     <div className="pt-28 pb-20 px-4 max-w-5xl mx-auto">
@@ -67,32 +185,40 @@ export default function ProfilePage() {
               <User className="w-10 h-10 text-[var(--text-muted)]" />
             </div>
 
-            {/* Name / Email */}
-            <h2 className="font-semibold text-lg mb-1">{displayName}</h2>
-            <p className="text-sm text-gray-500 mb-1">@{displayName}</p>
-            {email && (
-              <p className="text-xs text-gray-600 mb-4">{email}</p>
-            )}
+            {/* Name */}
+            <h2 className="font-semibold text-lg mb-1 flex items-center justify-center gap-1.5">
+              {displayName}
+              {profile?.verified && (
+                <BadgeCheck className="w-4 h-4 text-[var(--violet-400)]" />
+              )}
+            </h2>
+            <p className="text-sm text-gray-500 mb-4">
+              {agent ? `Agent #${agent.id}` : "No agent registered yet"}
+            </p>
 
             {/* Stellar Wallet */}
-            {stellarWallet ? (
-              <div className="mb-4">
-                <p className="text-xs text-gray-500 mb-1">Stellar Wallet</p>
-                <code className="text-xs text-gray-400 bg-white/5 px-2 py-1 rounded block truncate">
-                  {stellarWallet}
-                </code>
-              </div>
-            ) : (
-              <div className="mb-4">
-                <p className="text-xs text-gray-500 mb-1">Stellar Wallet</p>
-                <p className="text-xs text-gray-600 italic">Generating...</p>
-              </div>
-            )}
+            <div className="mb-4">
+              <p className="text-xs text-gray-500 mb-1">Stellar Wallet</p>
+              <code className="text-xs text-gray-400 bg-white/5 px-2 py-1 block truncate">
+                {address}
+              </code>
+            </div>
 
-            {/* Edit Profile Button */}
-            <button className="btn-secondary w-full rounded-lg text-sm flex items-center justify-center gap-2">
-              <Edit className="w-4 h-4" />
-              Edit Profile
+            {agent && (
+              <Link
+                href={`/agents/${address}`}
+                className="btn-secondary w-full text-sm flex items-center justify-center gap-2 mb-2"
+              >
+                <Bot className="w-4 h-4" />
+                View Agent Page
+              </Link>
+            )}
+            <button
+              onClick={handleDisconnect}
+              className="btn-secondary w-full text-sm flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Disconnect
             </button>
           </div>
         </div>
@@ -104,25 +230,27 @@ export default function ProfilePage() {
             <h2 className="text-xl font-semibold mb-4">Activity Stats</h2>
             <div className="grid grid-cols-3 gap-4">
               <div className="card p-5 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 flex items-center justify-center">
                   <Bot className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="text-xs text-gray-500">Agents Created</div>
+                  <div className="text-2xl font-bold">{agent ? 1 : 0}</div>
+                  <div className="text-xs text-gray-500">Agents Registered</div>
                 </div>
               </div>
               <div className="card p-5 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="text-xs text-gray-500">Feedback Given</div>
+                  <div className="text-2xl font-bold">
+                    {reputation?.totalInteractions ?? 0}
+                  </div>
+                  <div className="text-xs text-gray-500">Feedback Received</div>
                 </div>
               </div>
               <div className="card p-5 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+                <div className="w-10 h-10 bg-white/5 flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-gray-500" />
                 </div>
                 <div>
@@ -133,19 +261,47 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Recent Activity */}
+          {/* Reputation */}
           <div>
-            <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-            <div className="card p-8 text-center">
-              <p className="text-gray-500">No recent activity</p>
-            </div>
+            <h2 className="text-xl font-semibold mb-4">Reputation</h2>
+            {reputation ? (
+              <div className="card p-6 flex items-center gap-6">
+                <div>
+                  <div className="text-3xl font-bold text-[var(--violet-400)]">
+                    {reputation.score}
+                  </div>
+                  <div className="text-xs text-gray-500">Score</div>
+                </div>
+                <div className="h-10 w-px bg-[var(--border-card)]" />
+                <div className="text-sm text-gray-400">
+                  <span className="text-[var(--accent-green)]">
+                    {reputation.positiveCount} 👍
+                  </span>
+                  <span className="mx-2 text-gray-600">·</span>
+                  <span className="text-[var(--accent-red)]">
+                    {reputation.negativeCount} 👎
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="card p-8 text-center">
+                <p className="text-gray-500">
+                  {agent
+                    ? "No feedback received yet"
+                    : "Register an agent to start building reputation"}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Quick Actions */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-4">
-              <Link href="/create-agent" className="card p-5 hover:border-white/20 transition-all group">
+              <Link
+                href="/create-agent"
+                className="card p-5 hover:border-white/20 transition-all group"
+              >
                 <div className="flex items-center gap-3 mb-2">
                   <Bot className="w-5 h-5 text-green-500" />
                   <h3 className="font-semibold group-hover:text-white transition-colors">
@@ -156,7 +312,10 @@ export default function ProfilePage() {
                   Create a new on-chain agent identity on Stellar
                 </p>
               </Link>
-              <Link href="/agents" className="card p-5 hover:border-white/20 transition-all group">
+              <Link
+                href="/agents"
+                className="card p-5 hover:border-white/20 transition-all group"
+              >
                 <div className="flex items-center gap-3 mb-2">
                   <Shield className="w-5 h-5 text-blue-400" />
                   <h3 className="font-semibold group-hover:text-white transition-colors">
