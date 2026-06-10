@@ -40,6 +40,13 @@ cert.pem
 .soroban/
 .stellar/
 
+# ── Wallet / deployer identity backups (CONTAIN SECRET KEYS) ──
+backup/
+**/backup/
+*-backup.toml
+*-deployer*.toml
+**/identity/*.toml
+
 # ── IDE / Editor ──
 .idea/
 .vscode/

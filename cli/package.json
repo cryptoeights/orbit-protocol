@@ -1,17 +1,58 @@
 {
-  "name": "@orbit-protocol/cli",
+  "name": "@orbit-protocol/agent",
   "version": "0.1.0",
-  "description": "ORBIT Protocol CLI — identity tools for AI agents on Stellar",
+  "description": "ORBIT Protocol SDK + CLI — identity infrastructure for AI agents on Stellar (Soroban)",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/lib.js",
+  "module": "dist/lib.js",
+  "types": "dist/lib.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/lib.d.ts",
+      "import": "./dist/lib.js"
+    },
+    "./cli": "./dist/index.js"
+  },
+  "bin": {
+    "orbit": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc",
+    "prepublishOnly": "tsc",
     "orbit": "tsx src/index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "stellar",
+    "soroban",
+    "ai-agents",
+    "identity",
+    "web3",
+    "orbit-protocol",
+    "agent-card"
+  ],
+  "author": "Pebri Ansyah <cryptoeights@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://orbitprotocol.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cryptoeights/orbit-protocol.git",
+    "directory": "cli"
+  },
+  "bugs": {
+    "url": "https://github.com/cryptoeights/orbit-protocol/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
     "@stellar/stellar-sdk": "^15.0.1",

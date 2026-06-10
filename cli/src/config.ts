@@ -4,11 +4,13 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Load .env.testnet from project root
-config({ path: resolve(__dirname, "../../.env.testnet") });
+// Load .env.testnet from project root (dev). Falls back silently to process
+// env when the file is absent (e.g. the published package). `quiet` suppresses
+// dotenv's startup banner so it doesn't pollute CLI output.
+config({ path: resolve(__dirname, "../../.env.testnet"), quiet: true });
 
 export const cfg = {
-  apiUrl: process.env.ORBIT_API_URL || "http://localhost:3001",
+  apiUrl: process.env.ORBIT_API_URL || "https://api.orbitprotocol.dev",
 
   // Stellar
   rpcUrl:
