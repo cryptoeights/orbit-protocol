@@ -3,7 +3,7 @@
 > **READ THIS FIRST** at the start of every chat. It's the single source of truth
 > for the Instawards engagement. Update it at the END of every chat.
 
-Last updated: 2026-06-10 (Job 4 DONE: orbitprotocol.dev + api.orbitprotocol.dev LIVE from VPS via Cloudflare Tunnel)
+Last updated: 2026-06-15 (Job 5 DONE: full CLI→testnet→directory loop verified; tx hashes captured)
 
 ---
 
@@ -62,7 +62,7 @@ At the end of a chat, write results to the job file and update the table below.
 | 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ✅ **DONE** (npm v0.1.0 live) | — |
 | 3 | **Frontend redesign — port brand system to code (Figma→React)** | `03-frontend.md` | ✅ **DONE** (Variant B terminal, all pages) | — |
 | 4 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `04-deploy-vps.md` | ✅ **DONE** (site + API live) | #3 |
-| 5 | End-to-end verify (CLI register → directory) | `05-e2e-verify.md` | ⬜ TODO | #2, #4 |
+| 5 | End-to-end verify (CLI register → directory) | `05-e2e-verify.md` | ✅ **DONE** (agent #57, register+verify tx captured, badge live) | #2, #4 |
 | 6 | Demo videos (CLI flow + site walkthrough) | `06-demo-video.md` | ⬜ TODO | #2, #4, #5 |
 | 7 | Evidence submission package for Ambassador | `07-evidence.md` | ⬜ TODO | #1–#6 |
 
@@ -84,6 +84,7 @@ Frontend MUST land before deploy — the deployed site is the public face + D3 e
 
 | Date | Chat focus | Outcome |
 |------|-----------|---------|
+| 2026-06-15 | Job #5: end-to-end verify (+ A/B test) | **Full loop proven on testnet, BOTH locally and from the packaged artifact.** **Path A (local build):** wallet `GB67SPYG…6QRV` → register (agent **#57**, `c4a2e00a…`) → verify basic/10 XLM (`26f455fe…`) → lookup ✅ basic. Live at **orbitprotocol.dev** profile + directory with **VERIFIED** badge (screenshotted via prod frontend run against live API). **Path B (npm pack → clean install, no .env):** agent **#58** `GBELNCWN…35GX`, register `87250c77…`, verify `45a52192…`. **CLI fixes (uncommitted, tsc clean):** (1) register/verify print **tx hash + stellar.expert link** (`buildAndSubmit` returns `txHash`, new `explorerTx()`); (2) **fixed:** `verify` never re-synced API cache → directory stayed ❌ after on-chain verify; now POSTs `/api/agents/sync/:wallet`; (3) **DEFECT found via A/B:** published `@orbit-protocol/agent@0.1.0` is **broken out-of-the-box** — `config.ts` defaulted contract IDs to `""` + can't find `.env.testnet`, so `npx … register` fails `Invalid contract ID:`. Fixed by baking public testnet IDs as `TESTNET_DEFAULTS` (env still overrides). Files: `cli/src/{config,stellar,utils,commands/register,commands/verify}.ts`. **⚠️ npm must be republished (v0.1.1)** for D2 evidence to be truthful — tracked in `05-e2e-verify.md`. |
 | 2026-06-10 | Polish: favicon + drop Privy | **Favicon = ORBIT Constellation mark** (`icon.svg` + 16/32/48 `favicon.ico` 4KB + `apple-icon.png`; fixed png-to-ico 285KB bloat, PR #14). **Privy fully removed → Freighter-only** (PR #13): deleted PrivyProvider + dep (−6.2k lockfile lines), `/profile` rewritten (silent restore, connect prompt, on-chain agent/reputation/verified via simulation), `/security` copy updated, `NEXT_PUBLIC_PRIVY_APP_ID` purged from Dockerfile/compose/envs (local+VPS), CI frontend job upgraded to full `next build`. Redeployed VPS; live-verified: favicon 3,968B served, `/profile` 200, zero "privy" in HTML. Privy allowed-domains follow-up obsolete. |
 | 2026-06-10 | Job #4: deploy VPS (D3) | **LIVE: https://orbitprotocol.dev + https://api.orbitprotocol.dev.** VPS: Docker installed, repo → `/opt/orbit`, `deploy/.env` (strong pg password, Privy id), stack up (pg/redis/api/frontend), schema pushed. Fixed frontend Docker build break (new pnpm `ERR_PNPM_IGNORED_BUILDS` → pin `pnpm@10.29.3` + `onlyBuiltDependencies`, PR #12 merged, CI green). Cloudflare Tunnel `orbit` (`d1663c84…`) via cert login flow (no CF API token exists); CNAMEs auto-added; cloudflared container on `web` network; b402 Caddy untouched. All 6 routes 200 + API `/health` healthy publicly. Pending: live screenshots (Chrome ext offline → do in Job 5/6), Privy allowed-domains add, inform Kenny re: Vercel→VPS deviation. |
 | 2026-06-06 | Assess SOW + plan jobs + GitHub activity (Tier 1) | Mapped 6 jobs; shipped repo health: Docker/deploy, CI (green), MIT license, domain→.dev, fixed 3 TS errors. Merged PR #1. Created this memory structure. |
