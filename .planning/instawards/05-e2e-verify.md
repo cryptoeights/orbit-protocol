@@ -64,8 +64,10 @@ orbit lookup GB67SPYGNUAXAK2BZYVDYSRKC4UMPPHBVAVYMJG4FNTQ4WQNPMWG6QRV
 - **Fix:** baked the public testnet contract IDs (+ XLM SAC) into `config.ts` as defaults
   (`TESTNET_DEFAULTS`), env vars still override. Re-verified via the tarball install above
   (path B) — full loop now works with zero config.
-- **ACTION for Job 2/7:** the fix is local only → **npm must be republished (v0.1.1)** before
-  the D2 "package works" evidence is truthful. The currently-live npm version is still broken.
+- **RESOLVED 2026-06-15:** published **`@orbit-protocol/agent@0.1.1`** to npm; PR #15 merged to
+  `main` (repo now matches npm). Live OOB re-verified: `npx @orbit-protocol/agent@0.1.1 register`
+  in a clean dir with no `.env` → agent registered, tx
+  `324d34c109fa3b12b44e4fa86c6f95455a211107d26449f6857ca8f871b0eaa0`. D2 "package works" now truthful.
 
 ### Notes
 - Profile + directory pages are client-rendered; verified live by running the prod

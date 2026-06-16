@@ -3,7 +3,7 @@
 > **READ THIS FIRST** at the start of every chat. It's the single source of truth
 > for the Instawards engagement. Update it at the END of every chat.
 
-Last updated: 2026-06-15 (Job 5 DONE: full CLI→testnet→directory loop verified; tx hashes captured)
+Last updated: 2026-06-15 (Job 5 DONE: full loop verified A/B; npm v0.1.1 published + OOB-verified; PR #15 merged)
 
 ---
 
@@ -59,7 +59,7 @@ At the end of a chat, write results to the job file and update the table below.
 |---|-----|------|--------|------------|
 | 0 | GitHub activity / repo health (CI, license, Docker, domain) | `00-github-activity.md` | ✅ **DONE** | — |
 | 1 | Contract coverage report >80% (D1 evidence) | `01-coverage.md` | ✅ **DONE** (96.33% lines) | — |
-| 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ✅ **DONE** (npm v0.1.0 live) | — |
+| 2 | Rename SDK → `@orbit-protocol/agent` + publish npm (D2) | `02-npm-publish.md` | ✅ **DONE** (npm **v0.1.1** live, OOB-verified) | — |
 | 3 | **Frontend redesign — port brand system to code (Figma→React)** | `03-frontend.md` | ✅ **DONE** (Variant B terminal, all pages) | — |
 | 4 | Deploy to VPS, go live `orbitprotocol.dev` (D3) | `04-deploy-vps.md` | ✅ **DONE** (site + API live) | #3 |
 | 5 | End-to-end verify (CLI register → directory) | `05-e2e-verify.md` | ✅ **DONE** (agent #57, register+verify tx captured, badge live) | #2, #4 |
