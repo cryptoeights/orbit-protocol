@@ -75,7 +75,8 @@ export async function buildAndSubmit(
   }
 
   if (result.status === "SUCCESS") {
-    return result;
+    // Surface the submission hash so callers can show an explorer link.
+    return { ...result, txHash: hash };
   } else if (result.status === "FAILED") {
     throw new Error(`Transaction failed on-chain`);
   } else {
