@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { nativeToScVal } from "@stellar/stellar-sdk";
-import { loadKeypair, printSuccess, printError, apiPost } from "../utils.js";
+import { loadKeypair, printSuccess, printError, apiPost, explorerTx } from "../utils.js";
 import { buildAndSubmit, toAddress } from "../stellar.js";
 import { cfg } from "../config.js";
 
@@ -31,6 +31,8 @@ export const registerCmd = new Command("register")
 
       printSuccess("Agent registered on-chain!");
       console.log(`  Wallet: ${wallet}`);
+      console.log(`  Tx:     ${result.txHash}`);
+      console.log(`  Explorer: ${explorerTx(result.txHash)}`);
 
       // Sync to API cache.
       try {

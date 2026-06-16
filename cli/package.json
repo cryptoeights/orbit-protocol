@@ -1,6 +1,6 @@
 {
   "name": "@orbit-protocol/agent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ORBIT Protocol SDK + CLI — identity infrastructure for AI agents on Stellar (Soroban)",
   "type": "module",
   "main": "dist/lib.js",

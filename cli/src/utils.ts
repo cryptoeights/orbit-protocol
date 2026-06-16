@@ -84,3 +84,11 @@ export function printSuccess(msg: string): void {
 export function printError(msg: string): void {
   console.error(`❌ ${msg}`);
 }
+
+// ── Explorer helpers ──
+
+/** stellar.expert transaction link for the active network. */
+export function explorerTx(hash: string): string {
+  const net = cfg.network === "public" ? "public" : "testnet";
+  return `https://stellar.expert/explorer/${net}/tx/${hash}`;
+}

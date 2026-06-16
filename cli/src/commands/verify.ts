@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { nativeToScVal, xdr } from "@stellar/stellar-sdk";
-import { loadKeypair, printSuccess, printError, apiGet } from "../utils.js";
+import { loadKeypair, printSuccess, printError, apiGet, apiPost, explorerTx } from "../utils.js";
 import { buildAndSubmit, toAddress, toU64 } from "../stellar.js";
 import { cfg } from "../config.js";
 
@@ -29,7 +29,7 @@ export const verifyCmd = new Command("verify")
 
       console.log(`\n  Verifying agent #${agent.agent_id} (${opts.tier} tier, ${fee})...`);
 
-      await buildAndSubmit(
+      const result = await buildAndSubmit(
         cfg.verificationId,
         "verify_agent",
         [
@@ -41,6 +41,17 @@ export const verifyCmd = new Command("verify")
       );
 
       printSuccess(`Agent verified! (${opts.tier} tier, paid ${fee})`);
+      console.log(`  Tx:     ${result.txHash}`);
+      console.log(`  Explorer: ${explorerTx(result.txHash)}`);
+
+      // Refresh the API cache so the verified badge shows in the directory.
+      try {
+        await apiPost(`/api/agents/sync/${wallet}`);
+        console.log("  API cache synced.");
+      } catch {
+        console.log("  ⚠️  API sync skipped (server may not be running)");
+      }
+
       console.log();
     } catch (e: any) {
       printError(e.message);
