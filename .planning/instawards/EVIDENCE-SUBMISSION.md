@@ -19,11 +19,18 @@ of scope (see "Bonus").
 | Public GitHub repo | https://github.com/cryptoeights/orbit-protocol |
 | Testnet deployment (stellar.expert) — **AgentRegistry** | https://stellar.expert/explorer/testnet/contract/CBGROUBL3CAOXD6WXZDJKZJQ7PWJOJSGXZSFNENBNRIMZ4HG6BNT6CJF |
 | Testnet deployment (stellar.expert) — **Verification** | https://stellar.expert/explorer/testnet/contract/CAVCJ2UMXMYMAJN7YNQ4RNBQ4SXFCV36QRGZWSHXVEK2CX7UG42LEVN5 |
-| Test coverage report (>80%) | **96.33% lines** (agent-registry + verification), 32 tests passing. `contracts/coverage/` (`summary.txt`, `lcov.info`, `README.md`) + CI `contracts.yml` → `coverage-lcov` artifact |
+| Test coverage report (>80%) — **summary** | https://github.com/cryptoeights/orbit-protocol/blob/main/contracts/coverage/summary.txt |
+| Test coverage report — README | https://github.com/cryptoeights/orbit-protocol/blob/main/contracts/coverage/README.md |
+| Test coverage report — raw lcov | https://github.com/cryptoeights/orbit-protocol/blob/main/contracts/coverage/lcov.info |
+| CI — test/coverage workflow | https://github.com/cryptoeights/orbit-protocol/blob/main/.github/workflows/contracts.yml |
+| CI — run history (green) + `coverage-lcov` artifact | https://github.com/cryptoeights/orbit-protocol/actions/workflows/contracts.yml |
+| Test source — AgentRegistry (20 tests) | https://github.com/cryptoeights/orbit-protocol/blob/main/contracts/contracts/agent-registry/src/test.rs |
+| Test source — Verification (12 tests) | https://github.com/cryptoeights/orbit-protocol/blob/main/contracts/contracts/verification/src/test.rs |
 
+- **Coverage: 96.33% lines** (agent-registry + verification), 32 tests passing — exceeds the >80% requirement.
 - Deployed on Stellar Testnet **2026-04-01** (deployer `GDQZEOCXWGOY2KI75PEJMIKCAVAJTBBDYIFLSIVXRQUANEGG4M2SY6NO`). Each contract's creation/invocation transactions are viewable on its stellar.expert page above.
 - Written in Rust with `soroban-sdk`. AgentRegistry (register / update / deactivate / lookup) + Verification (pay 10 XLM → verified badge, check, admin revoke).
-- Coverage detail: agent-registry 20 tests, verification 12 tests; lines 96.33%, regions 96.84%, functions 90.43% — all ≥80%.
+- Coverage detail: agent-registry 20 tests, verification 12 tests; lines 96.33%, regions 96.84%, functions 90.43% — all ≥80%. Reproduce locally: `cd contracts && cargo llvm-cov -p agent-registry -p verification --summary-only`.
 
 ---
 
